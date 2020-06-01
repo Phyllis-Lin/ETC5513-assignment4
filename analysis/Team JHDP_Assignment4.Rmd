@@ -1,0 +1,82 @@
+---
+title: "Expert advice from experts"
+author:
+- familyname: Troy
+  othernames: Helen
+  title: Professor
+  qualifications: BSc, PhD
+  email: helen.troy@gmail.com
+  correspondingauthor: true
+- familyname: Khan
+  othernames: Genghis
+  title: Mr
+  qualifications: BA, BComm, BCompSci, BLaw
+department: Department of\newline Econometrics &\newline Business Statistics
+organization: Acme Corporation
+bibliography: references.bib
+biblio-style: authoryear-comp
+linestretch: 1.5
+output:
+  MonashEBSTemplates::report:
+    fig_caption: yes
+    fig_height: 5
+    fig_width: 8
+    includes:
+      in_header: preamble.tex
+    keep_tex: yes
+    number_sections: yes
+    citation_package: biblatex
+    toc: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, 
+                      cache=TRUE, 
+                      messages=FALSE, 
+                      warning=FALSE)
+```
+
+```{r}
+library(ggplot2)
+library(tidyverse)
+library(haven)
+library(lubridate)
+```
+
+
+# Introduction (Justin - master branch)
+- Introduce the research subject  
+- Why did we choose this subject?
+
+# Dataset and Methodology
+- Source of data. (Dewi)  
+- Limitations (Hanh - master)  
+- Methodology: How we deal with this dataset. ( Peimin - master)  
+
+# Analysis:
+### Clean the data: 
+1. isolate the month + year (Hanh - master branch)  
+```{r load-data, cache = TRUE}
+raw_data <- read.csv(here::here("data", "seek_australia_sample.csv"))
+```
+
+```{r}
+glance
+```
+
+2. Missing values  (Hanh - Hanh-Ngo branch)  
+
+### Analyze the change in demand by job category) (Peimin-Peimin branch)
+
+
+### Analyze the change in demand by city + life quality  
+1. Change in demand (Hanh)    
+2. How does it reflect life quality? (Dewi)
+
+### Analyze the change in demand by job type (Justin’s branch)
+
+# Conclusion: (Justin - master branch)
+
+
+
+
