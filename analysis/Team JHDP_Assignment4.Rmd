@@ -41,6 +41,10 @@ library(ggplot2)
 library(tidyverse)
 library(haven)
 library(lubridate)
+library(broom)
+library(tidyr)
+library(base)
+library(glue)
 ```
 
 
@@ -60,8 +64,18 @@ library(lubridate)
 raw_data <- read.csv(here::here("data", "seek_australia_sample.csv"))
 ```
 
-```{r}
-glance
+```{r clean-data}
+# choose the needed columns only
+data_cleaned <- raw_data %>%
+  select(3:9)
+
+# separate the post-date column to get the date out
+data_cleaned <- data_cleaned %>%
+  separate (post_date, into = c("post_date", "tz"), sep = "T")
+
+# convert the post_date column from character to date format
+data_cleaned %>%
+  mutate_at(vars(post_date), as.Date, format = "%Y-%m-%d")
 ```
 
 2. Missing values  (Hanh - Hanh-Ngo branch)  
