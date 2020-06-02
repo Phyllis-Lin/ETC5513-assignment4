@@ -93,7 +93,9 @@ data_cleaned %>%
 1. Change in demand (Hanh)    
 2. How does it reflect life quality? (Dewi)
 
-### Analyze the change in demand by job type (Justin’s branch)
+### Analyze the change in demand by job type
+
+In this section, our goal is to see the different types of jobs such as full-time, part-time, grad roles, internships and casual jobs. The changes in demand to these job types will vastly differ compared to a couple of months ago, but it will be interesting to see which job type increased in demand.
 
 # Conclusion: (Justin - master branch)
 
