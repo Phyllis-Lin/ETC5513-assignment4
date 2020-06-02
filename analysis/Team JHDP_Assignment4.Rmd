@@ -1,5 +1,5 @@
 ---
-title: "Expert advice from experts"
+title: "Distribution of job listings across Australia"
 author:
 - familyname: Troy
   othernames: Helen
@@ -48,9 +48,15 @@ library(glue)
 ```
 
 
-# Introduction (Justin - master branch)
-- Introduce the research subject  
-- Why did we choose this subject?
+# Introduction 
+
+Job types, job locations, rising demand for certain job categories, these are just some of the aspects of job hunting that many working people around the world are intrigued by. In this report, you will find an in depth analysis into the distribution of job listings across Australia. The report will analyze 3 main sections of job distribution within Australia, broken down by:
+
+1) The change in demand by job category
+2) The change in demand for jobs by city
+3) The change in demand by job type
+
+Our motivation to choose this as our research topic is prompted by experiencing first hand the cataclysmic effects of the coronavirus and the impact it has had on the job market globally. It has been an unfortunate scenario to witness unemployment rates skyrocket in major cities around the world. Thus, we want to visualize the changes in demand to jobs of all types and categories in Australia, particularly in the major cities.
 
 # Dataset and Methodology
 - Source of data. (Dewi)  
