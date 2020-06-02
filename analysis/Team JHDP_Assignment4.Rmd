@@ -95,7 +95,19 @@ data_cleaned %>%
 
 ### Analyze the change in demand by job type
 
-In this section, our goal is to see the different types of jobs such as full-time, part-time, grad roles, internships and casual jobs. The changes in demand to these job types will vastly differ compared to a couple of months ago, but it will be interesting to see which job type increased in demand.
+In this section, our goal is to see the different types of jobs such as full-time, part-time, contract and casual jobs. The changes in demand to these job types will vastly differ across the months, but it will be interesting to see which job type increased in demand.
+
+```{r}
+data_cleaned %>% group_by(job_type) %>% count() 
+```
+
+```{r}
+data_cleaned %>% group_by(job_type) %>% count() %>% rename(`Job Type` = job_type,
+                                                           `Number of jobs posted` = n) %>%
+    ggplot(aes(x = `Number of jobs posted`, y = `Job Type`, fill = `Job Type`)) +
+      geom_col() +
+      theme(legend.position = "bottom")
+```
 
 # Conclusion: (Justin - master branch)
 
