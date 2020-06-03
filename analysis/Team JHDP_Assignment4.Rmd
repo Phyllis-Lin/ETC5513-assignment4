@@ -87,6 +87,14 @@ data_cleaned %>%
 2. Missing values  (Hanh - Hanh-Ngo branch)  
 
 ### Analyze the change in demand by job category) (Peimin-Peimin branch)
+```{r jobctegory}
+library(kableExtra)
+jobcategory <- data_cleaned  %>% dplyr::select(post_date,
+                                               category) 
+kable(jobcategory, caption = " 2008-2018 Job Category in Australia  ") %>%
+  kable_styling(bootstrap_options = c("striped", "hover"))
+head(jobcategory)
+```
 
 
 ### Analyze the change in demand by city + life quality  
