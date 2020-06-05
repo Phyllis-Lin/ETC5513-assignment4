@@ -96,40 +96,39 @@ kable(jobcategory, caption = "2018 Job Category in Australia") %>%
 head(jobcategory)
 ```
 
-```{r}
-job_list1 <- jobcategory %>% count(category, sort = TRUE, name = "number") %>%
-head(15)
-``` 
 
 ```{r category_months}
 category_months <- jobcategory %>%  separate(post_date, c("Year","Month","day"))%>%
-select(-"Year", -"day") %>%
+select(-"Year", -"day") 
+
+```
+
+```{r monthly_dirtribution}
+category <- category_months  %>%
   count(Month,category,sort = TRUE, name = "number")%>%
   arrange(Month) %>%
    ggplot(aes(x = Month, y = number)) + 
    geom_col(position = "dodge") +
-   facet_wrap(~category, ncol = 6 )+ 
-   theme_bw(base_size = 7.5)+
-   theme(axis.text.x = element_text(angle = 50, vjust = 1)) + 
-   ggtitle("Monthly job category distribution") 
-
-category_months
-```
-
-```{r category_months}
-category <- jobcategory %>%  separate(post_date, c("Year","Month","day"))%>%
-select(-"Year", -"day") %>%
-  count(Month,category,sort = TRUE, name = "number")%>%
-  arrange(Month) %>%
-   ggplot(aes(x = category, y = number)) + 
-   geom_col(position = "dodge") +
-   facet_wrap(~Month, ncol = 1)+ 
-   theme_bw(base_size = 5)+
+   facet_wrap(~category, ncol = 5)+ 
+   theme_bw(base_size = 6.5)+
    theme(axis.text.x = element_text(angle = 50, vjust = 1)) + 
    ggtitle("Monthly job category distribution") 
 
 category
 ```
+
+```{r April_change}
+April <- category_months %>% 
+  dplyr::filter(Month == "04") %>%
+  count(category,sort = TRUE, name = "number")%>%
+  ggplot(aes(x = category, y = number)) + 
+  geom_col(position = "dodge") +
+   theme_bw(base_size = 10)+
+   theme(axis.text.x = element_text(angle = 50, vjust = 1)) 
+
+April
+```
+
 
 
 ### Analyze the change in demand by city + life quality  
