@@ -129,7 +129,17 @@ April <- category_months %>%
 April
 ```
 
+```{r May_change}
+May <- category_months %>% 
+  dplyr::filter(Month == "05") %>%
+  count(category,sort = TRUE, name = "number")%>%
+  ggplot(aes(x = category, y = number)) + 
+  geom_col(position = "dodge") +
+   theme_bw(base_size = 10)+
+   theme(axis.text.x = element_text(angle = 50, vjust = 1)) 
 
+May
+```
 
 ### Analyze the change in demand by city + life quality  
 1. Change in demand (Hanh)    
