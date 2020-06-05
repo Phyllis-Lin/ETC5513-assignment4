@@ -91,9 +91,44 @@ data_cleaned %>%
 library(kableExtra)
 jobcategory <- data_cleaned  %>% dplyr::select(post_date,
                                                category) 
-kable(jobcategory, caption = " 2008-2018 Job Category in Australia  ") %>%
+kable(jobcategory, caption = "2018 Job Category in Australia") %>%
   kable_styling(bootstrap_options = c("striped", "hover"))
 head(jobcategory)
+```
+
+```{r}
+job_list1 <- jobcategory %>% count(category, sort = TRUE, name = "number") %>%
+head(15)
+``` 
+
+```{r category_months}
+category_months <- jobcategory %>%  separate(post_date, c("Year","Month","day"))%>%
+select(-"Year", -"day") %>%
+  count(Month,category,sort = TRUE, name = "number")%>%
+  arrange(Month) %>%
+   ggplot(aes(x = Month, y = number)) + 
+   geom_col(position = "dodge") +
+   facet_wrap(~category, ncol = 6 )+ 
+   theme_bw(base_size = 7.5)+
+   theme(axis.text.x = element_text(angle = 50, vjust = 1)) + 
+   ggtitle("Monthly job category distribution") 
+
+category_months
+```
+
+```{r category_months}
+category <- jobcategory %>%  separate(post_date, c("Year","Month","day"))%>%
+select(-"Year", -"day") %>%
+  count(Month,category,sort = TRUE, name = "number")%>%
+  arrange(Month) %>%
+   ggplot(aes(x = category, y = number)) + 
+   geom_col(position = "dodge") +
+   facet_wrap(~Month, ncol = 1)+ 
+   theme_bw(base_size = 5)+
+   theme(axis.text.x = element_text(angle = 50, vjust = 1)) + 
+   ggtitle("Monthly job category distribution") 
+
+category
 ```
 
 
