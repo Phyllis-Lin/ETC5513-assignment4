@@ -59,8 +59,13 @@ Job types, job locations, rising demand for certain job categories, these are ju
 Our motivation to choose this as our research topic is prompted by experiencing first hand the cataclysmic effects of the coronavirus and the impact it has had on the job market globally. It has been an unfortunate scenario to witness unemployment rates skyrocket in major cities around the world. Thus, we want to visualize the changes in demand to jobs of all types and categories in Australia, particularly in the major cities.
 
 # Dataset and Methodology
-- Source of data. (Dewi)  
-- Limitations (Hanh - master)  
+
+## Source of Data
+
+To portray the change of job demand in Australia, we used an Australia job listing data that downloaded from [Kaggle](https://www.kaggle.com/PromptCloudHQ/australian-job-listings-data-from-seek-job-board) provided by [PromptCloud](https://www.promptcloud.com), a web-scraping company. Originally, this data was scraped from [Seek](https://www.seek.com.au) job board. This dataset has a [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) license, where people are free to share and adapt the data. It contains 20,030 observations and 13 variables, but only 8 variables that are going to use in te analysis. They are: job title; category of job; company name; city; date when jobs were posted; time when jobs were posted; job description; and job type. 
+
+
+- Limitations (Hanh - master) 
 - Methodology: How we deal with this dataset. ( Peimin - master)  
 
 # Analysis:
