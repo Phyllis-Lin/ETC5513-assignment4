@@ -45,12 +45,19 @@ library(broom)
 library(tidyr)
 library(base)
 library(glue)
+library(naniar) # For missing values
 ```
 
 
-# Introduction (Justin - master branch)
-- Introduce the research subject  
-- Why did we choose this subject?
+# Introduction 
+
+Job types, job locations, rising demand for certain job categories, these are just some of the aspects of job hunting that many working people around the world are intrigued by. In this report, you will find an in depth analysis into the distribution of job listings across Australia. The report will analyze 3 main sections of job distribution within Australia, broken down by:
+
+1) The change in demand by job category
+2) The change in demand for jobs by city
+3) The change in demand by job type
+
+Our motivation to choose this as our research topic is prompted by experiencing first hand the cataclysmic effects of the coronavirus and the impact it has had on the job market globally. It has been an unfortunate scenario to witness unemployment rates skyrocket in major cities around the world. Thus, we want to visualize the changes in demand to jobs of all types and categories in Australia, particularly in the major cities.
 
 # Dataset and Methodology
 - Source of data. (Dewi)  
@@ -65,7 +72,7 @@ raw_data <- read.csv(here::here("data", "seek_australia_sample.csv"))
 ```
 
 ```{r clean-data}
-# choose the needed columns only
+#choose the needed columns only 
 data_cleaned <- raw_data %>%
   select(3:9)
 
@@ -79,6 +86,15 @@ data_cleaned %>%
 ```
 
 2. Missing values  (Hanh - Hanh-Ngo branch)  
+```{r}
+# Using the raw data to show missing valuess
+miss_data <- raw_data %>%
+  # Replace blank values with NA
+  mutate_all(na_if,"")
+vis_miss(miss_data)
+gg_miss_upset(miss_data)
+```
+
 
 ### Analyze the change in demand by job category) (Peimin-Peimin branch)
 
