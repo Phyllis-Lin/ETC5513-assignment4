@@ -117,53 +117,22 @@ category <- category_months  %>%
 category
 ```
 
-```{r April_change}
-April <- category_months %>% 
-  dplyr::filter(Month == "04") %>%
-  count(category,sort = TRUE, name = "number")%>%
-  ggplot(aes(x = category, y = number)) + 
-  geom_col(position = "dodge") +
-   theme_bw(base_size = 10)+
+```{r Month_number}
+monthly <- category_months %>% 
+  count(category,Month,sort = TRUE, name = "number") %>%
+  arrange(Month) %>%
+  group_by(Month) %>%
+  top_n(5) %>%
+   ggplot() +
+  geom_point(mapping = aes(x = Month, y = number, color = category)) +
+  
+   theme_bw(base_size = 11.5)+
    theme(axis.text.x = element_text(angle = 50, vjust = 1)) 
-
-April
+   
+monthly
 ```
 
-```{r May_change}
-May <- category_months %>% 
-  dplyr::filter(Month == "05") %>%
-  count(category,sort = TRUE, name = "number")%>%
-  ggplot(aes(x = category, y = number)) + 
-  geom_col(position = "dodge") +
-   theme_bw(base_size = 10)+
-   theme(axis.text.x = element_text(angle = 50, vjust = 1)) 
 
-May
-```
-
-```{r June_change}
-June <- category_months %>% 
-  dplyr::filter(Month == "06") %>%
-  count(category,sort = TRUE, name = "number")%>%
-  ggplot(aes(x = category, y = number)) + 
-  geom_col(position = "dodge") +
-   theme_bw(base_size = 10)+
-   theme(axis.text.x = element_text(angle = 50, vjust = 1)) 
-
-June
-```
-
-```{r July_change}
-July <- category_months %>% 
-  dplyr::filter(Month == "07") %>%
-  count(category,sort = TRUE, name = "number")%>%
-  ggplot(aes(x = category, y = number)) + 
-  geom_col(position = "dodge") +
-   theme_bw(base_size = 10)+
-   theme(axis.text.x = element_text(angle = 50, vjust = 1)) 
-
-July
-```
 
 ### Analyze the change in demand by city + life quality  
 1. Change in demand (Hanh)    
