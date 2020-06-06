@@ -90,21 +90,17 @@ data_cleaned %>%
 ```{r jobctegory}
 library(kableExtra)
 jobcategory <- data_cleaned  %>% dplyr::select(post_date,
-                                               category) 
-kable(jobcategory, caption = "2018 Job Category in Australia") %>%
-  kable_styling(bootstrap_options = c("striped", "hover"))
-head(jobcategory)
-```
-
-
-```{r category_months}
-category_months <- jobcategory %>%  separate(post_date, c("Year","Month","day"))%>%
-select(-"Year", -"day") 
+                                               category) %>%
+  separate(post_date, c("Year","Month","day"))%>%
+ select(-"Year", -"day") 
 
 ```
+
+
+
 
 ```{r monthly_dirtribution}
-category <- category_months  %>%
+distribution <- jobcategory  %>%
   count(Month,category,sort = TRUE, name = "number")%>%
   arrange(Month) %>%
    ggplot(aes(x = Month, y = number)) + 
@@ -114,11 +110,11 @@ category <- category_months  %>%
    theme(axis.text.x = element_text(angle = 50, vjust = 1)) + 
    ggtitle("Monthly job category distribution") 
 
-category
+distribution
 ```
 
 ```{r Month_number}
-monthly <- category_months %>% 
+monthly <- jobcategory  %>% 
   count(category,Month,sort = TRUE, name = "number") %>%
   arrange(Month) %>%
   group_by(Month) %>%
