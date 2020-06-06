@@ -118,7 +118,10 @@ job_type_counts <- job_type %>% group_by(Month, job_type) %>% count()
 ```
 
 ```{r}
-
+job_type_counts %>%
+ggplot(aes(x = Month, y = n)) +
+  geom_col(aes(fill = job_type)) +
+  labs(y = "Number of jobs posted", x = "Month") 
 ```
 
 # Conclusion: (Justin - master branch)
