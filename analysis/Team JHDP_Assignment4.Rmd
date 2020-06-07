@@ -279,6 +279,22 @@ cost_of_living_state <- cost_of_living %>% mutate(
 
 ```
 
+```{r livingcost_state_map_join}
+
+#read the oz_map.rds data
+oz_map <- read_rds(here::here("data/oz_map.rds"))
+
+#join the cost_of_living_state with oz_map
+living_cost_map <- cost_of_living_state %>%
+  # filter Newcastle and Gold Coast
+  # in order to get the detailed picture in Sydney and Brisbane
+  # if these cities are not filtered, 
+  # then the living cost map will display the average of living cost in NSW and QLD
+  filter(city != "Newcastle",
+         city != "Gold Coast") %>%
+  full_join(oz_map, c("state" = "state_abb")) 
+```
+
 
 
 ### Analyze the change in demand by job type (Justin’s branch)
