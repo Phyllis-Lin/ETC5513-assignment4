@@ -200,7 +200,7 @@ by_city_cleaned <- by_city %>%
 2. Missing values  (Hanh - Hanh-Ngo branch)  
 ```{r}
 # Using the raw data to show missing valuess
-miss_data <- raw_data %>%
+miss_data <- by_city_cleaned %>%
   # Replace blank values with NA
   mutate_all(na_if,"")
 vis_miss(miss_data)
@@ -219,15 +219,23 @@ https://github.com/Elkfox/Australian-Postcode-Data
 https://download.geonames.org/export/zip/
 
 ```{r}
-data_cleaned %>%
-  group_by(post_date, city) %>%
+# Convert Date column from character to Date format for geom_line
+by_city_cleaned <- by_city_cleaned %>%
+  mutate_at(vars(post_date), as.Date, format = "%Y-%m-%d")
+
+by_city_cleaned %>%
+  group_by(post_date, state) %>%
   summarise("count" = n()) %>%
   ungroup() %>%
   ggplot(aes(x = post_date,
-             y = count,
-             color = city)) +
-  geom_line() +
-  theme(axis.text.x = element_text(angle = 60, vjust = 0.3))
+             y = count)) +
+  geom_line(color = "#00008B") +
+  facet_wrap(~ state, scales = "fixed") +
+  theme(axis.text.x = element_text(angle = 60, vjust = 0.3)) +
+  theme_bw() +
+  labs(title = "Count of jobs posted by days",
+       x = "Date",
+       y = "Number of jobs")
 ```
 
 
