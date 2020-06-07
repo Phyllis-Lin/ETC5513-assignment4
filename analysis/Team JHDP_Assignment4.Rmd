@@ -292,9 +292,20 @@ living_cost_map <- cost_of_living_state %>%
   # then the living cost map will display the average of living cost in NSW and QLD
   filter(city != "Newcastle",
          city != "Gold Coast") %>%
-  full_join(oz_map, c("state" = "state_abb")) 
+  full_join(oz_map, c("state" = "state_abb"))
 ```
 
+```{r map, fig.cap="Living cost in Australia by Capital State}
+
+ggplot(living_cost_map,
+       aes(x = longitude,
+           y = latitude,
+           geometry = geometry,
+           fill = living_cost_incld_rent)) + 
+  geom_sf() + 
+  scale_fill_viridis_c()
+
+```
 
 
 ### Analyze the change in demand by job type (Justin’s branch)
