@@ -295,7 +295,7 @@ living_cost_map <- cost_of_living_state %>%
   full_join(oz_map, c("state" = "state_abb"))
 ```
 
-```{r map, fig.cap="Living cost in Australia by Capital State}
+```{r map, fig.cap="Living cost in Australia by State Capital City}
 
 ggplot(living_cost_map,
        aes(x = longitude,
@@ -303,7 +303,9 @@ ggplot(living_cost_map,
            geometry = geometry,
            fill = living_cost_incld_rent)) + 
   geom_sf() + 
-  scale_fill_viridis_c()
+  scale_fill_viridis_c()+
+  labs(fill = "Living cost index include rent cost") +
+  theme(legend.position = "bottom")
 
 ```
 
