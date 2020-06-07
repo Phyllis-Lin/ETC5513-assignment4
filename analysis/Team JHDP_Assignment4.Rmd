@@ -136,7 +136,6 @@ monthly
 ```
 
 
-
 ### Analyze the change in demand by city + life quality  
 1. Change in demand (Hanh)    
 2. How does it reflect life quality? (Dewi)
