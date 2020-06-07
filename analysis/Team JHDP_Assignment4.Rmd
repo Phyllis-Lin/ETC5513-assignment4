@@ -210,6 +210,7 @@ by_city_cleaned <- by_city %>%
 1. Change in demand (Hanh)    
 
 #### Job availibility and living cost
+
 ```{r livingcost, message = FALSE, include = FALSE}
 
 # Scraping living cost data
@@ -258,6 +259,23 @@ cost_of_living <- tibble(city = city,
                          restaurant = restaurant,
                          local_purchasing_power_index = local_purchase_power,
                          living_cost_incld_rent = cost_living_rent)
+
+```
+
+```{r livingcost_state}
+
+cost_of_living_state <- cost_of_living %>% mutate(
+  state = case_when(
+    str_detect(city, "Sydney") ~ "NSW",
+    str_detect(city, "Newcastle") ~ "NSW",
+    str_detect(city, "Brisbane") ~ "QLD",
+    str_detect(city, "Gold Coast") ~ "QLD",
+    str_detect(city, "Canberra") ~ "ACT",
+    str_detect(city, "Perth") ~ "WA",
+    str_detect(city, "Melbourne") ~ "VIC",
+    str_detect(city, "Adelaide") ~ "SA",
+    str_detect(city, "Hobart") ~ "TAS")
+)
 
 ```
 
