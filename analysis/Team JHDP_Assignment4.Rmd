@@ -110,18 +110,27 @@ data_cleaned %>% group_by(job_type) %>% count() %>%
 ```
 
 ```{r}
-job_type <- data_cleaned %>% select(job_title, post_date, job_type) %>% mutate(Month = month(post_date, label = TRUE, abbr = FALSE))
+job_types <- data_cleaned %>% select(job_title, post_date, job_type) %>% mutate(Month = month(post_date, label = TRUE, abbr = FALSE))
 ```
 
 ```{r}
-job_type_counts <- job_type %>% group_by(Month, job_type) %>% count() 
+job_type_counts <- job_types %>% mutate(Month = as.character(Month),
+                                       job_type = as.character(job_type)) %>%
+                            group_by(Month, job_type) %>% count() 
 ```
 
 ```{r}
 job_type_counts %>%
 ggplot(aes(x = Month, y = n)) +
-  geom_col(aes(fill = job_type)) +
+  geom_point(aes(color = job_type)) +
+  geom_line(aes(color= job_type)) +
   labs(y = "Number of jobs posted", x = "Month") 
+```
+
+```{r}
+full_time <- job_type_counts %>% filter(job_type == "Full Time") %>% summary()
+  ggplot(full_time) +
+  geom_boxplot()
 ```
 
 # Conclusion: (Justin - master branch)
