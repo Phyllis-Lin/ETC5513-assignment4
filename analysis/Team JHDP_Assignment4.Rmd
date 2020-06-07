@@ -88,7 +88,7 @@ data_cleaned %>%
 
 ### Analyze the change in demand by job category) (Peimin-Peimin branch)
 ```{r jobctegory}
-library(kableExtra)
+
 jobcategory <- data_cleaned  %>% dplyr::select(post_date,
                                                category) %>%
   separate(post_date, c("Year","Month","day"))%>%
@@ -96,7 +96,7 @@ jobcategory <- data_cleaned  %>% dplyr::select(post_date,
 
 ```
 
-```{r category_num}
+```{r category_num, fig.cap= " The number of jobs per category"}
 canum <- jobcategory %>%
   count(category,sort = TRUE, name = "number")%>%
   arrange(number)
@@ -106,7 +106,7 @@ kable_styling(bootstrap_options = c("striped", "hover"))
 
 
 
-```{r monthly_dirtribution}
+```{r monthly_dirtribution, fig.cap="Monthly job category distribution"}
 distribution <- jobcategory  %>%
   count(Month,category,sort = TRUE, name = "number")%>%
   arrange(Month) %>%
@@ -120,7 +120,7 @@ distribution <- jobcategory  %>%
 distribution
 ```
 
-```{r Month_number}
+```{r Month_number, fig.cap="Top 5 category in each month"}
 monthly <- jobcategory  %>% 
   count(category,Month,sort = TRUE, name = "number") %>%
   arrange(Month) %>%
@@ -128,7 +128,7 @@ monthly <- jobcategory  %>%
   top_n(5) %>%
    ggplot() +
   geom_point(mapping = aes(x = Month, y = number, color = category)) +
-  
+  ggtitle("Top 5 category in each month")+
    theme_bw(base_size = 11.5)+
    theme(axis.text.x = element_text(angle = 50, vjust = 1)) 
    
