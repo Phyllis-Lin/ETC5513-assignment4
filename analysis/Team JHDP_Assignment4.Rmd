@@ -106,7 +106,7 @@ by_city <- by_city %>%
 vis_miss(by_city)
 ```
 
-```{r clean-city-name}
+```{r clean-city-name, cache = TRUE}
 # Manually adjust missing state
 by_city_cleaned <- by_city %>%
   mutate(
@@ -197,9 +197,15 @@ by_city_cleaned <- by_city %>%
   filter(!city == "")
 ```
 
+_Reources:_ 
+https://simplemaps.com/data/au-cities
+https://stackoverflow.com/questions/15347282/split-delimited-strings-in-a-column-and-insert-as-new-rows
+https://github.com/Elkfox/Australian-Postcode-Data
+https://download.geonames.org/export/zip/
+
 2. Missing values  (Hanh - Hanh-Ngo branch)  
 ```{r}
-# Using the raw data to show missing valuess
+# Using the raw data to show missing values
 miss_data <- by_city_cleaned %>%
   # Replace blank values with NA
   mutate_all(na_if,"")
@@ -213,10 +219,7 @@ gg_miss_upset(miss_data)
 
 ### Analyze the change in demand by city + life quality  
 1. Change in demand (Hanh)    
-https://simplemaps.com/data/au-cities
-https://stackoverflow.com/questions/15347282/split-delimited-strings-in-a-column-and-insert-as-new-rows
-https://github.com/Elkfox/Australian-Postcode-Data
-https://download.geonames.org/export/zip/
+
 
 ```{r}
 # Convert Date column from character to Date format for geom_line
