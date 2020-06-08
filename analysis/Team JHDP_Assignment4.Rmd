@@ -101,6 +101,8 @@ In this section, our goal is to see the different types of jobs such as full-tim
 data_cleaned %>% group_by(job_type) %>% count() 
 ```
 
+#### Number of jobs posted per job type
+
 ```{r}
 data_cleaned %>% group_by(job_type) %>% count() %>% 
     ggplot(aes(x = n, y = job_type, fill = job_type)) +
@@ -109,15 +111,17 @@ data_cleaned %>% group_by(job_type) %>% count() %>%
       labs(x = "Number of jobs posted", y = "Job Type")
 ```
 
-```{r}
+```{r, echo=FALSE}
 job_types <- data_cleaned %>% select(job_title, post_date, job_type) %>% mutate(Month = month(post_date, label = TRUE, abbr = FALSE))
 ```
 
-```{r}
-job_type_counts <- job_types %>% mutate(Month = as.character(Month),
+```{r, echo=FALSE}
+job_type_counts <- job_types %>% mutate(Month = month(post_date),
                                        job_type = as.character(job_type)) %>%
                             group_by(Month, job_type) %>% count() 
 ```
+
+#### Fluctuations in job posting numbers by month
 
 ```{r}
 job_type_counts %>%
