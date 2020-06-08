@@ -211,6 +211,8 @@ by_city_cleaned <- by_city %>%
 
 #### Job availibility and living cost
 
+According to @davidlasswell, when searching for a job, cost of living should be taken into account. It also relates to the question whether the salary of the job would be enough to cover the living cost in a particular state. Therefore, in this subsection, we would observe the living cost in the major cities in Australia with more job positions available.  
+
 ```{r livingcost, message = FALSE, include = FALSE}
 
 # Scraping living cost data
