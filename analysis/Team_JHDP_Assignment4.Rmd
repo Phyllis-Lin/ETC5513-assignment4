@@ -334,7 +334,7 @@ kable(job_city_table,
   kable_styling("striped")
 ```
 
-
+Table \ref{tab:jobcity} conveys that Sydney, Melbourne, Brisbane, and Perth was being the cities with most job listings. These cities had more than 1000 jobs available in April to December 2018. 
 
 
 
