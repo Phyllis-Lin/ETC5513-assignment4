@@ -32,7 +32,7 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, 
                       cache=TRUE, 
-                      messages=FALSE, 
+                      message=FALSE, 
                       warning=FALSE)
 ```
 
@@ -72,7 +72,7 @@ Our motivation to choose this as our research topic is prompted by experiencing 
 raw_data <- read.csv(here::here("data", "seek_australia_sample.csv"))
 ```
 
-```{r clean-data, cache = TRUE, echo=FALSE}
+```{r clean-data, cache = TRUE, echo=FALSE, warning=FALSE, message=FALSE}
 # choose the needed columns only
 data_cleaned <- raw_data %>%
   select(3:9)
@@ -95,9 +95,11 @@ data_cleaned %>%
 1. Change in demand (Hanh)    
 2. How does it reflect life quality? (Dewi)
 
+\clearpage
+
 ### Analyze the change in demand by job type
 
-In this section, our goal is to see the different types of jobs such as full-time, part-time, contract and casual jobs. The changes in demand to these job types will vastly differ across the months, but it will be interesting to see which job type increased in demand.
+In this section, our goal is to visualize the different types of jobs such as full-time, part-time, contract and casual jobs. The changes in demand to these job types will vastly differ across the months, but it will be interesting to see which job type increased in demand.
 
 #### Number of jobs posted per job type
 
@@ -115,7 +117,7 @@ data_cleaned %>% group_by(job_type) %>% count() %>%
       labs(x = "Number of jobs posted", y = "Job Type")
 ```
 
-The different types of jobs being posted on seek are part time, full time, contract/temporary and casual/vacation. From Table \@ref(tab:job-type-counts), we can see that over 13500 jobs out of the roughly 20000 jobs posted are full-time jobs. It is easier to visualize just how common these types of jobs are in Figure \@ref(fig:job-types), and we can see how dominant the full-time jobs are being posted by companies. According to abc.net, most of the full-time jobs are being generated in the healthcare and education sectors. Specifically, the National Disability Insurance Scheme (NDIS) and aged care services have increased demand for these types of jobs. The NDIS expects an extra 80,000 full-time jobs by 2020.
+The different types of jobs being posted on seek are part time, full time, contract/temporary and casual/vacation. From Table \@ref(tab:job-type-counts), we can see that over 13500 jobs out of the roughly 20000 jobs posted are full-time jobs. It is easier to visualize just how common these types of jobs are in Figure \@ref(fig:job-types), and we can see how dominant the full-time jobs are being posted by companies. We can expect such a result as many companies seek to employ fresh graduates from universities for an entry-level role. The number of new college graduates entering the workforce is always high enough for companies to post a lot of full-time jobs, which is why it is the most popular job type. Most of the full-time jobs are being generated in the healthcare and education sectors. Specifically, the National Disability Insurance Scheme (NDIS) and aged care services are seeing an increase in demand for these types of jobs. The NDIS expects an extra 80,000 full-time jobs by 2020 @aigroup.
 
 ```{r, echo=FALSE}
 job_types <- data_cleaned %>% select(job_title, post_date, job_type) %>% 
@@ -139,13 +141,13 @@ data_cleaned %>% mutate(post_date = as.Date(post_date)) %>% group_by(post_date, 
 
 #### Fluctuations in job posting numbers by month
 
-```{r job-count-fluctations, fig.align="center", fig.cap="Changes in job number postings by month"}
+```{r job-count-fluctuations, fig.align="center", fig.cap="Changes in job number postings by month"}
 ggplot(job_type_counts, aes(x = Month, y = `Number of jobs posted`)) +
   geom_point(aes(color = job_type)) +
   geom_line(aes(color= job_type)) 
 ```
 
-However, the fluctuations of these job types says more about what kinds of jobs companies are willing to offer. For example, in Figure \#ref(fig:job-count-fluctations), there is a large spike in full time jobs between August and October. The opposite is true when these jobs plummet down from 3100 posted jobs in October to around 700 jobs in November. Both part time and casual jobs stay relatively neutral and do not change as much throughout the months. According to Aigroup, casual jobs have stayed the same since the past two decades, these jobs formed 20.6% of the workforce in February 2018 compared to 20.1 % in 1998. The reason for an uptick in the jobs posted for this category in October is because the largest proportion of people who take up casual jobs are aged 20-24 @norman. Thus around October, many of these people who are students are available as the summer break approaches. Interestingly, all the job types follow a similar pattern, reporting an increase in the number of jobs posted in June and October as these are the time periods for winter and summer break respectively.
+However, the fluctuations of these job types says more about what kinds of jobs companies are willing to offer. For example, in Figure \#ref(fig:job-count-fluctuations), there is a large spike in full time jobs between August and October. The opposite is true when these jobs plummet down from 3100 posted jobs in October to around 700 jobs in November. Both part time and casual jobs stay relatively neutral and do not change as much throughout the months. Casual jobs have stayed the same since the past two decades, these jobs formed 20.6% of the workforce in February 2018 compared to 20.1 % in 1998. The reason for an uptick in the jobs posted for this category in October is because the largest proportion of people who take up casual jobs are aged 20-24 @norman. Thus around October, many of these people who are students are available to take to take on casual jobs as the summer break approaches. Interestingly, all the job types follow a similar pattern, reporting an increase in the number of jobs posted in June and October as these are the time periods for winter and summer break respectively.
 
 
 
