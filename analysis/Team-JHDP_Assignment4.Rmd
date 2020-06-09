@@ -1,53 +1,52 @@
 ---
 title: "Distribution of job listings across Australia"
-author:
-- familyname: Troy
-  othernames: Helen
-  title: Professor
-  qualifications: BSc, PhD
-  email: helen.troy@gmail.com
-  correspondingauthor: true
-- familyname: Khan
-  othernames: Genghis
-  title: Mr
-  qualifications: BA, BComm, BCompSci, BLaw
-department: Department of\newline Econometrics &\newline Business Statistics
-organization: Acme Corporation
-bibliography: references.bib
+author: "Peimin Lin"
 biblio-style: authoryear-comp
 linestretch: 1.5
 output:
-  MonashEBSTemplates::report:
-    fig_caption: yes
-    fig_height: 5
-    fig_width: 8
-    includes:
-      in_header: preamble.tex
-    keep_tex: yes
+  pdf_document:
+    highlight: tango
     number_sections: yes
-    citation_package: biblatex
-    toc: false
+    toc: yes
+    toc_depth: 2
+  html_document:
+    df_print: paged
+    toc: yes
+    toc_depth: '2'
+header-includes:
+- \usepackage{titling}
+- \pretitle{\begin{center} \includegraphics[width=5in,height=13in]{figs/front.jpg}\LARGE\\}
+- \posttitle{\end{center}}
+- \usepackage{fontawesome}
+- \usepackage[most]{tcolorbox}
+- \usepackage{xcolor}
+- \usepackage{sectsty}
+- \sectionfont{\color{olive}}
+- \usepackage{verbatim}
 ---
 
-```{r setup, include=FALSE, echo=FALSE}
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(echo = FALSE, 
-                      cache=TRUE, 
+                      cache=FALSE, 
                       messages=FALSE, 
                       warning=FALSE)
 ```
 
-```{r library, echo=FALSE}
+```{r library, echo=FALSE, messages=FALSE}
 library(ggplot2)
 library(tidyverse)
 library(haven)
 library(lubridate)
 library(broom)
-library(tidyr)
 library(base)
 library(glue)
 library(bookdown)
+library(tinytex)
+
 ```
 
+\clearpage
 
 # Introduction 
 
