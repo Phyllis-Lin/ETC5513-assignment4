@@ -71,7 +71,7 @@ Our motivation to choose this as our research topic is prompted by experiencing 
 raw_data <- read.csv(here::here("data", "seek_australia_sample.csv"))
 ```
 
-```{r clean-data}
+```{r clean-dat, cache = TRUE }
 #choose the needed columns only 
 data_cleaned <- raw_data %>%
   select(3:9,11)
@@ -89,7 +89,7 @@ data_cleaned %>%
 states <- read.csv(here::here("data","au.csv"))
 ```
 
-```{r state-clean}
+```{r state-clean, cache = TRUE}
 # Clean and update state names
 by_city <- data_cleaned %>%
   filter(geo == "AU") %>%
@@ -204,7 +204,7 @@ https://github.com/Elkfox/Australian-Postcode-Data
 https://download.geonames.org/export/zip/
 
 2. Missing values  (Hanh - Hanh-Ngo branch)  
-```{r}
+```{r missing, fig.cap= "Missing values visualization"}
 # Using the raw data to show missing values
 miss_data <- by_city_cleaned %>%
   # Replace blank values with NA
@@ -214,14 +214,13 @@ gg_miss_upset(miss_data)
 ```
 
 
+
 ### Analyze the change in demand by job category) (Peimin-Peimin branch)
 
 
-### Analyze the change in demand by city + life quality  
+### Analyze the change in demand by states + life quality  
 1. Change in demand (Hanh)    
-
-
-```{r}
+```{r state-demand, fig.cap= "Daily job count by states", fig.align = "center"}
 # Convert Date column from character to Date format for geom_line
 by_city_cleaned <- by_city_cleaned %>%
   mutate_at(vars(post_date), as.Date, format = "%Y-%m-%d")
@@ -241,6 +240,35 @@ by_city_cleaned %>%
        y = "Number of jobs")
 ```
 
+Looking at figure \@ref(fig:state-demand), we could see that NSW, Victoria and Queensland lead the national job pool with highest counts observed among all the states. The patterns of job post appeared to look simimilat across the states with the highest peak in April, followed by two other minor peaks on July. 
+
+To have a better look at the states with lower job counts, which are Australia Capital Territory, Northern Territory, South Australia and Tasmania, we isolated them from the high - count states and look at the change separately.
+
+```{r low-demand-state, fig.cap= "Daily job counts in ACT, NT, SA and TAS"}
+by_city_cleaned %>%
+  filter(!state %in% c("New South Wales",
+                    "Queensland",
+                    "Victoria",
+                    "Western Australia")) %>%
+  group_by(post_date, state) %>%
+  summarise("count" = n()) %>%
+  ungroup() %>%
+  ggplot(aes(x = post_date,
+             y = count)) +
+  geom_line(color = "#FF0000") +
+  facet_wrap(~ state, scales = "fixed") +
+  theme(axis.text.x = element_text(angle = 60, vjust = 0.3)) +
+  theme_bw() +
+  labs(title = "Count of jobs posted by days",
+       x = "Date",
+       y = "Number of jobs")
+```
+
+Figure \@ref(fig:low-demand-state) showed that the other four states had roughly the same pattern of job post changed. 
+
+Normally, the job hunting season usually peaks around the beginning of the year, mostly in January as most companies having robust budgets for hiring and just got out of a holiday season in December. The same situation applies for job seekers as well as people start to come back from the holiday, usually bursted with new year resolution; also the annual bonus has been paid at the end of last year, making people more ready to change job starting from January. This dataset did not include data from January to March so we cannot verify the situation. However it would be safe to assume that this new year effect lasts further into April. Another peak is around July, which marks the start of new financial year for most companies, giving them higher budget for new hiring.
+
+Despite the similarity in seasonal pattern, the difference in job count was prominent accross the states. Big states like NSW, Victoria and Queensland held the majority of opportunities, with the highest count could even got more than 7 times higher than the highest count in the low - demand states (NSW versus South Australia). Eventhough it was common sense that big states would have more opportunity, the amount gap looked even more significant when we looked at it visually.
 
 2. How does it reflect life quality? (Dewi)
 
