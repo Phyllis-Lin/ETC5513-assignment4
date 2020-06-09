@@ -312,6 +312,14 @@ ggplot(living_cost_map,
 ```
 
 
+Figure \ref{fig:map} shows that Sydney was found to be the city with the highest living cost, followed by Melbourne, and Queensland. Western Australia and Tasmania had a lower living cost compared to those cities. The figure also conveys that Adelaide was the city with the lowest living cost in Australia. 
+
+
+
+
+
+
+
 ### Analyze the change in demand by job type (Justin’s branch)
 
 # Conclusion: (Justin - master branch)
