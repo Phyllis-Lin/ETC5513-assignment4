@@ -378,6 +378,10 @@ corr_test <- cor.test(job_cost_corr$living_cost_incld_rent,
 
 
 
+Figure \ref{fig:corrplot} suggests that there is a possible correlation between cost of living and the number of job listings in Australia. However, the pattern can not be really seen since the number of observations is too small. Therefore, the extension of analysis was performed by using Pearson correlation coefficient. The finding is that the there was a significantly positive (`r corr`) correlation between these two variables. This is inline with what @DePietro stated that the increasing living cost is often associated with employment growth and income growth. Further, larger cities tend to be perceived as the expensive places to live [@Weinstein].
+
+
+
 ### Analyze the change in demand by job type (Justin’s branch)
 
 # Conclusion: (Justin - master branch)
