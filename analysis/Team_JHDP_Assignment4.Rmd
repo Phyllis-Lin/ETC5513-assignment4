@@ -309,13 +309,12 @@ oz_map <- read_rds(here::here("data/oz_map.rds"))
 
 #join the cost_of_living_state with oz_map
 living_cost_map <- cost_of_living_state %>%
-  # filter Newcastle and Gold Coast
-  # in order to get the detailed picture in Sydney and Brisbane
-  # if these cities are not filtered, 
-  # then the living cost map will display the average of living cost in NSW and QLD
+  # filter the data only for the state capital cities
   filter(city != "Newcastle",
-         city != "Gold Coast") %>%
-  full_join(oz_map, c("state" = "state_abb"))
+         city != "Gold Coast",
+         city != "Cairns") %>%
+  full_join(oz_map, c("state" = "state_abb")) %>%
+  select(-state.y)
 ```
 
 ```{r map, fig.cap="Living cost in Australia by State Capital City}
