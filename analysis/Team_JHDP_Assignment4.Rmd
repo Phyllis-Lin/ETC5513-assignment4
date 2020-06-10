@@ -345,7 +345,7 @@ kable(job_city_table,
       "latex",
       col.names = c("City", "Number of Job Listings"),
       booktabs = TRUE) %>%
-  kable_styling("striped")
+  kable_styling(latex_options = "striped")
 ```
 
 
