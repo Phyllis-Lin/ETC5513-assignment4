@@ -212,7 +212,7 @@ by_city_cleaned <- by_city %>%
 ### Job availibility and living cost
 
 
-According to @davidlasswell, when searching for a job, cost of living should be taken into account. It also relates to the question whether the salary of the job would be enough to cover the living cost in a particular city. Therefore, in this subsection, the living cost in some cities in Australia with relatively have more job listings would be observed.
+According to @davidlasswell, when searching for a job, cost of living should be taken into account. It also relates to the question whether the salary of the job would be enough to cover the living cost in a particular city. Therefore, in this subsection, the living cost in some cities in Australia with relatively had more job listings would be observed.
 
 
 ```{r livingcost, message = FALSE, include = FALSE}
@@ -295,7 +295,8 @@ ggplot(cost_of_living_state) +
                  y = reorder(city, living_cost_incld_rent)),
              color = "#FF0080") +
   xlab("Cost of living plus rent index") +
-  ylab("City")
+  ylab("City")+
+  theme_bw()
 
 ```
 
@@ -324,6 +325,7 @@ job_city_table <- data_cleaned %>%
                      "Newcastle, Maitland & Hunter", 
                      "Cairns & Far North")) %>%
   ungroup() %>%
+  # change the city name
   mutate(city = case_when(
     str_detect(city, "Sydney") ~ "Sydney",
     str_detect(city, "Newcastle") ~ "Newcastle",
@@ -341,7 +343,7 @@ library(kableExtra)
 kable(job_city_table,
       caption = "The number of job listings in some cities in Australia in 2018",
       "latex",
-      col.names = c("City", "Number of Jobs Listings"),
+      col.names = c("City", "Number of Job Listings"),
       booktabs = TRUE) %>%
   kable_styling("striped")
 ```
@@ -350,12 +352,31 @@ kable(job_city_table,
 
 Table \ref{tab:jobcity} conveys that Sydney, was being the cities with most job listings. These cities had more than 1000 jobs available in April to December 2018. Meanwhile, Hobart was found to be the city with the least job listings among others. The large number of job listings in Sydney was possibly due to the fact that Sydney was placed to be the city with highest productivity in Australia [@pwcreport].
 
-```{r corrplot}
+```{r corrplot, fig.cap= "Cost of living plus rent index vs Number of job listings Scatter Plot"}
 
+#join the table for correlation calculation
 job_cost_corr <- cost_of_living_state %>%
   left_join(job_city_table, by = "city")
 
+#make the scatter plot
+ggplot(job_cost_corr) +
+  geom_point(aes(x =living_cost_incld_rent,
+             y = n),
+             color = "#138D75") +
+  xlab("Cost of living plus rent index") +
+  ylab("Number of job listings") +
+  theme_bw()
+
+#calculate correlation
+corr <- cor(job_cost_corr$living_cost_incld_rent, 
+            job_cost_corr$n)
+
+corr_test <- cor.test(job_cost_corr$living_cost_incld_rent, 
+            job_cost_corr$n)
+  
 ```
+
+
 
 ### Analyze the change in demand by job type (Justin’s branch)
 
