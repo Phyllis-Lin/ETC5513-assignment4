@@ -322,7 +322,20 @@ job_city_table <- data_cleaned %>%
                      "ACT", 
                      "Gold Coast", 
                      "Newcastle, Maitland & Hunter", 
-                     "Cairns & Far North"))
+                     "Cairns & Far North")) %>%
+  ungroup() %>%
+  mutate(city = case_when(
+    str_detect(city, "Sydney") ~ "Sydney",
+    str_detect(city, "Newcastle") ~ "Newcastle",
+    str_detect(city, "Brisbane") ~ "Brisbane",
+    str_detect(city, "Gold Coast") ~ "Gold Coast",
+    str_detect(city, "ACT") ~ "Canberra",
+    str_detect(city, "Perth") ~ "Perth",
+    str_detect(city, "Melbourne") ~ "Melbourne",
+    str_detect(city, "Adelaide") ~ "Adelaide",
+    str_detect(city, "Hobart") ~ "Hobart",
+    str_detect(city, "Darwin") ~ "Darwin",
+    str_detect(city, "Cairns") ~ "Cairns"))
 
 library(kableExtra)
 kable(job_city_table,
@@ -337,8 +350,12 @@ kable(job_city_table,
 
 Table \ref{tab:jobcity} conveys that Sydney, was being the cities with most job listings. These cities had more than 1000 jobs available in April to December 2018. Meanwhile, Hobart was found to be the city with the least job listings among others. The large number of job listings in Sydney was possibly due to the fact that Sydney was placed to be the city with highest productivity in Australia [@pwcreport].
 
+```{r corrplot}
 
+job_cost_corr <- cost_of_living_state %>%
+  left_join(job_city_table, by = "city")
 
+```
 
 ### Analyze the change in demand by job type (Justin’s branch)
 
