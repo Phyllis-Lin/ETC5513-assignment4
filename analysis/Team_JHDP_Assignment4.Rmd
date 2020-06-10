@@ -302,9 +302,9 @@ ggplot(cost_of_living_state) +
 
 
 
-Figure \ref{fig:livingcostplot} shows that Sydney was found to be the city with the highest living cost. Whilst generally, the living cost index in most cities in Australia, ranged betwen 60 to 68. The figure also conveys that Gold Coast was the city with the lowest living cost in Australia. 
+Figure \ref{fig:livingcostplot} shows that Sydney was found to be the city with the highest living cost, about 80. Whilst generally, the living cost index in most cities in Australia ranged betwen 60 to 68. The figure also conveys that Gold Coast was the city with the lowest living cost in Australia. 
 
-It is also interesting to observe whether there is a correlation between the living cost in those cities and the number of job listings in there. However, the number of job listings in those cities would be examined first.
+It is also interesting to observe whether there is a correlation between the living cost in those cities and the number of job listings in there. Hence, the number of job listings in those cities would be examined first.
 
 ```{r jobcity}
 
@@ -334,7 +334,8 @@ kable(job_city_table,
 ```
 
 
-Table \ref{tab:jobcity} conveys that Sydney, Melbourne, Brisbane, and Perth was being the cities with most job listings. These cities had more than 1000 jobs available in April to December 2018. 
+
+Table \ref{tab:jobcity} conveys that Sydney, was being the cities with most job listings. These cities had more than 1000 jobs available in April to December 2018. Meanwhile, Hobart was found to be the city with the least job listings among others. The large number of job listings in Sydney was possibly due to the fact that Sydney was placed to be the city with highest productivity in Australia [@pwcreport].
 
 
 
