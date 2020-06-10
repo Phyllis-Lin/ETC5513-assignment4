@@ -292,7 +292,10 @@ library(forcats)
 
 ggplot(cost_of_living_state) +
   geom_point(aes(x = living_cost_incld_rent,
-                 y = reorder(city, living_cost_incld_rent)))
+                 y = reorder(city, living_cost_incld_rent)),
+             color = "#FF0080") +
+  xlab("Cost of living plus rent index") +
+  ylab("City")
 
 ```
 
