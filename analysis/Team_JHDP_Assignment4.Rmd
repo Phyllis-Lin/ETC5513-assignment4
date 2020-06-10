@@ -225,9 +225,9 @@ library(readr)
 
 # ensure that the website is scrapable 
 
-bow("https://www.numbeo.com/cost-of-living/country_result.jsp?country=Australia")
+bow("https://www.numbeo.com/cost-of-living/rankings.jsp?title=2018")
 
-cost <- bow("https://www.numbeo.com/cost-of-living/country_result.jsp?country=Australia")
+cost <- bow("https://www.numbeo.com/cost-of-living/rankings.jsp?title=2018")
 
 cost_scraped <- scrape(cost)
 
@@ -263,6 +263,26 @@ cost_of_living <- tibble(city = city,
                          local_purchasing_power_index = local_purchase_power,
                          living_cost_incld_rent = cost_living_rent)
 
+# filter only the country in Australia
+cost_of_living_au <- cost_of_living %>%
+  filter(str_detect(city,"Australia")) %>%
+  separate(city, into = c("city", "country"), sep = ",")
+
+# add state column to the data
+cost_of_living_state <- cost_of_living_au %>% mutate(
+  state = case_when(
+    str_detect(city, "Sydney") ~ "NSW",
+    str_detect(city, "Newcastle") ~ "NSW",
+    str_detect(city, "Brisbane") ~ "QLD",
+    str_detect(city, "Gold Coast") ~ "QLD",
+    str_detect(city, "Canberra") ~ "ACT",
+    str_detect(city, "Perth") ~ "WA",
+    str_detect(city, "Melbourne") ~ "VIC",
+    str_detect(city, "Adelaide") ~ "SA",
+    str_detect(city, "Hobart") ~ "TAS",
+    str_detect(city, "Darwin") ~ "NT",
+    str_detect(city, "Cairns") ~ "QLD")
+)
 ```
 
 ```{r livingcost_state}
