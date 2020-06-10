@@ -311,17 +311,28 @@ It is also interesting to observe whether there is a correlation between the liv
 job_city_table <- data_cleaned %>%
   group_by(city) %>%
   count() %>%
-  arrange(desc(n)) #%>%
-  #filter(city %in% c("Sydney", "Melbourne", "Brisbane", "Perth", "Adelaide", "Hobart", "Darwin", "ACT"))
+  arrange(desc(n)) %>%
+  filter(city %in% c("Sydney", 
+                     "Melbourne", 
+                     "Brisbane", 
+                     "Perth", 
+                     "Adelaide", 
+                     "Hobart", 
+                     "Darwin", 
+                     "ACT", 
+                     "Gold Coast", 
+                     "Newcastle, Maitland & Hunter", 
+                     "Cairns & Far North"))
 
-#library(kableExtra)
-#kable(job_city_table,
-      #caption = "The number of job availability in Australian states capital cities in 2018",
-      #"latex",
-      #col.names = c("City", "Number of Jobs Listings"),
-      #booktabs = TRUE) %>%
-  #kable_styling("striped")
+library(kableExtra)
+kable(job_city_table,
+      caption = "The number of job listings in some cities in Australia in 2018",
+      "latex",
+      col.names = c("City", "Number of Jobs Listings"),
+      booktabs = TRUE) %>%
+  kable_styling("striped")
 ```
+
 
 Table \ref{tab:jobcity} conveys that Sydney, Melbourne, Brisbane, and Perth was being the cities with most job listings. These cities had more than 1000 jobs available in April to December 2018. 
 
