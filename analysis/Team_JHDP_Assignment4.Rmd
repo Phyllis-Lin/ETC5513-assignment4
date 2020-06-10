@@ -65,11 +65,22 @@ Our motivation to choose this as our research topic is prompted by experiencing 
 - Methodology: How we deal with this dataset. ( Peimin - master)  
 
 # Analysis:
-### Clean the data: 
+### Inspecting the Dataset
+#### Clean the data: 
 1. isolate the month + year (Hanh - master branch)  
 ```{r load-data, cache = TRUE}
 raw_data <- read.csv(here::here("data", "seek_australia_sample.csv"))
+head(raw_data, n = 10)
 ```
+
+There are things to note before we clean:  
+- city: there are observations that have multiple cities nested in one row.  
+- post_date: dates are coupled with time stamps, thus in character format not in date format.  
+- state: nearly 30% of state information is missed. Multiple name of states are nested in one row and are not in uniform format.  
+- geo: contained both geography for Australia and New Zealand.  
+- salary_offered: mostly absent.  
+
+In order for the data to be used, we need to separate the nested column and observations, filter the data to include Australia only and filled out the state information, using the third - party list of cities and states in Australia to match with the cities in our dataset.
 
 ```{r clean-dat, cache = TRUE }
 #choose the needed columns only 
@@ -89,7 +100,7 @@ data_cleaned %>%
 states <- read.csv(here::here("data","au.csv"))
 ```
 
-```{r state-clean, cache = TRUE}
+```{r state-clean, cache = TRUE, fig.cap="Missing value visualization after columns and rows separation", echo = FALSE}
 # Clean and update state names
 by_city <- data_cleaned %>%
   filter(geo == "AU") %>%
@@ -197,29 +208,35 @@ by_city_cleaned <- by_city %>%
   filter(!city == "")
 ```
 
+This is the dataset after we have done the cleaning, choosing only the variables needed for the analysis:
+
+```{r}
+# Select only the columns needed
+by_city_cleaned <- by_city_cleaned %>%
+  select(- c(lat, lng, country, iso2, capital, population, population_proper))
+head(by_city_cleaned)
+```
+
 _Reources:_ 
 https://simplemaps.com/data/au-cities
-https://stackoverflow.com/questions/15347282/split-delimited-strings-in-a-column-and-insert-as-new-rows
-https://github.com/Elkfox/Australian-Postcode-Data
-https://download.geonames.org/export/zip/
 
-2. Missing values  (Hanh - Hanh-Ngo branch)  
-```{r missing, fig.cap= "Missing values visualization"}
+####. Missing values  (Hanh - Hanh-Ngo branch)  
+```{r missing, fig.cap= "Missing values visualization after the cleaning"}
 # Using the raw data to show missing values
 miss_data <- by_city_cleaned %>%
   # Replace blank values with NA
   mutate_all(na_if,"")
 vis_miss(miss_data)
-gg_miss_upset(miss_data)
 ```
 
+A quick overview showed that out of all variables choosen, job description is the only variable that had missing values and at a really high ratio - 75.3%, other variables are fully present. However, job description is not of importance for this study, hence we can conclude that this dataset requires no further cleaning and is ready for use.
 
 
 ### Analyze the change in demand by job category) (Peimin-Peimin branch)
 
 
 ### Analyze the change in demand by states + life quality  
-1. Change in demand (Hanh)    
+####. Change in demand (Hanh)    
 ```{r state-demand, fig.cap= "Daily job count by states", fig.align = "center"}
 # Convert Date column from character to Date format for geom_line
 by_city_cleaned <- by_city_cleaned %>%
@@ -270,7 +287,7 @@ Normally, the job hunting season usually peaks around the beginning of the year,
 
 Despite the similarity in seasonal pattern, the difference in job count was prominent accross the states. Big states like NSW, Victoria and Queensland held the majority of opportunities, with the highest count could even got more than 7 times higher than the highest count in the low - demand states (NSW versus South Australia). Eventhough it was common sense that big states would have more opportunity, the amount gap looked even more significant when we looked at it visually.
 
-2. How does it reflect life quality? (Dewi)
+####. How does it reflect life quality? (Dewi)
 
 ### Analyze the change in demand by job type (Justin’s branch)
 
