@@ -209,7 +209,8 @@ by_city_cleaned <- by_city %>%
 ### Analyze the change in demand by city + life quality  
 1. Change in demand (Hanh)    
 
-#### Job availibility and living cost
+### Job availibility and living cost
+
 
 According to @davidlasswell, when searching for a job, cost of living should be taken into account. It also relates to the question whether the salary of the job would be enough to cover the living cost in a particular state. Therefore, in this subsection, we would observe the living cost in the state capital cities in Australia. It is also because these cities relatively have more job listing than other small cities. 
 
@@ -285,58 +286,24 @@ cost_of_living_state <- cost_of_living_au %>% mutate(
 )
 ```
 
-```{r livingcost_state}
+```{r livingcostplot, fig.cap = "Living cost of 2018 by city"}
 
-cost_of_living_state <- cost_of_living %>% mutate(
-  state = case_when(
-    str_detect(city, "Sydney") ~ "NSW",
-    str_detect(city, "Newcastle") ~ "NSW",
-    str_detect(city, "Brisbane") ~ "QLD",
-    str_detect(city, "Gold Coast") ~ "QLD",
-    str_detect(city, "Canberra") ~ "ACT",
-    str_detect(city, "Perth") ~ "WA",
-    str_detect(city, "Melbourne") ~ "VIC",
-    str_detect(city, "Adelaide") ~ "SA",
-    str_detect(city, "Hobart") ~ "TAS")
-)
+library(forcats)
 
-```
-
-```{r livingcost_state_map_join}
-
-#read the oz_map.rds data
-oz_map <- read_rds(here::here("data/oz_map.rds"))
-
-#join the cost_of_living_state with oz_map
-living_cost_map <- cost_of_living_state %>%
-  # filter the data only for the state capital cities
-  filter(city != "Newcastle",
-         city != "Gold Coast",
-         city != "Cairns") %>%
-  full_join(oz_map, c("state" = "state_abb")) %>%
-  select(-state.y)
-```
-
-```{r map, fig.cap="Living cost in Australia by State Capital City}
-
-ggplot(living_cost_map,
-       aes(x = longitude,
-           y = latitude,
-           geometry = geometry,
-           fill = living_cost_incld_rent)) + 
-  geom_sf() + 
-  scale_fill_viridis_c()+
-  labs(fill = "Living cost index include rent cost") +
-  theme(legend.position = "bottom")
+ggplot(cost_of_living_state) +
+  geom_point(aes(x = living_cost_incld_rent,
+                 y = reorder(city, living_cost_incld_rent)))
 
 ```
 
 
-Figure \ref{fig:map} shows that Sydney was found to be the city with the highest living cost, followed by Melbourne, Canberra, and Queensland. Western Australia and Tasmania had a lower living cost compared to those cities. The figure also conveys that Adelaide was the city with the lowest living cost in Australia. 
+
+
+Figure \ref{fig:livingcostplot} shows that Sydney was found to be the city with the highest living cost, followed by Melbourne, Canberra, and Queensland. Western Australia and Tasmania had a lower living cost compared to those cities. The figure also conveys that Adelaide was the city with the lowest living cost in Australia. 
 
 It also interesting to observe whether there is a correlation, between the living cost in those cities and the number of job listings in there. Therefore, let us take a look first, to the number of job listings in those cities. 
 
-```{r jobcity, include=FALSE}
+```{r jobcity}
 
 job_city_table <- data_cleaned %>%
   group_by(city) %>%
