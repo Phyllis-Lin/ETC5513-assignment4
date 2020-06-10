@@ -212,7 +212,7 @@ by_city_cleaned <- by_city %>%
 ### Job availibility and living cost
 
 
-According to @davidlasswell, when searching for a job, cost of living should be taken into account. It also relates to the question whether the salary of the job would be enough to cover the living cost in a particular state. Therefore, in this subsection, we would observe the living cost in the state capital cities in Australia. It is also because these cities relatively have more job listing than other small cities. 
+According to @davidlasswell, when searching for a job, cost of living should be taken into account. It also relates to the question whether the salary of the job would be enough to cover the living cost in a particular city. Therefore, in this subsection, we would observe the living cost in some cities in Australia with relatively have more job listings.
 
 
 ```{r livingcost, message = FALSE, include = FALSE}
@@ -311,16 +311,16 @@ It also interesting to observe whether there is a correlation, between the livin
 job_city_table <- data_cleaned %>%
   group_by(city) %>%
   count() %>%
-  arrange(desc(n)) %>%
-  filter(city %in% c("Sydney", "Melbourne", "Brisbane", "Perth", "Adelaide", "Hobart", "Darwin", "ACT"))
+  arrange(desc(n)) #%>%
+  #filter(city %in% c("Sydney", "Melbourne", "Brisbane", "Perth", "Adelaide", "Hobart", "Darwin", "ACT"))
 
-library(kableExtra)
-kable(job_city_table,
-      caption = "The number of job availability in Australian states capital cities in 2018",
-      "latex",
-      col.names = c("City", "Number of Jobs Listings"),
-      booktabs = TRUE) %>%
-  kable_styling("striped")
+#library(kableExtra)
+#kable(job_city_table,
+      #caption = "The number of job availability in Australian states capital cities in 2018",
+      #"latex",
+      #col.names = c("City", "Number of Jobs Listings"),
+      #booktabs = TRUE) %>%
+  #kable_styling("striped")
 ```
 
 Table \ref{tab:jobcity} conveys that Sydney, Melbourne, Brisbane, and Perth was being the cities with most job listings. These cities had more than 1000 jobs available in April to December 2018. 
