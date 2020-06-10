@@ -212,7 +212,7 @@ by_city_cleaned <- by_city %>%
 ### Job availibility and living cost
 
 
-According to @davidlasswell, when searching for a job, cost of living should be taken into account. It also relates to the question whether the salary of the job would be enough to cover the living cost in a particular city. Therefore, in this subsection, we would observe the living cost in some cities in Australia with relatively have more job listings.
+According to @davidlasswell, when searching for a job, cost of living should be taken into account. It also relates to the question whether the salary of the job would be enough to cover the living cost in a particular city. Therefore, in this subsection, the living cost in some cities in Australia with relatively have more job listings would be observed.
 
 
 ```{r livingcost, message = FALSE, include = FALSE}
@@ -302,9 +302,9 @@ ggplot(cost_of_living_state) +
 
 
 
-Figure \ref{fig:livingcostplot} shows that Sydney was found to be the city with the highest living cost, followed by Melbourne, Canberra, and Queensland. Western Australia and Tasmania had a lower living cost compared to those cities. The figure also conveys that Adelaide was the city with the lowest living cost in Australia. 
+Figure \ref{fig:livingcostplot} shows that Sydney was found to be the city with the highest living cost. Whilst generally, the living cost index in most cities in Australia, ranged betwen 60 to 68. The figure also conveys that Gold Coast was the city with the lowest living cost in Australia. 
 
-It also interesting to observe whether there is a correlation, between the living cost in those cities and the number of job listings in there. Therefore, let us take a look first, to the number of job listings in those cities. 
+It is also interesting to observe whether there is a correlation between the living cost in those cities and the number of job listings in there. However, the number of job listings in those cities would be examined first.
 
 ```{r jobcity}
 
