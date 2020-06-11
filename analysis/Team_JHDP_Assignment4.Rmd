@@ -263,6 +263,8 @@ An exploratory data analysis is performed to observe the change in job demand ac
 ## Analyze the change in demand by job category
 
 There are 30 job categories in this dataset and table \ref{tab:category} lists the number of jobs per category from April 2018 to November 2018. The job category of trades and services was the most popular job category in 2018 in Australia, followed by information and communications technology which saw the number of job postings as almost the same as the most popular job category. From the Labour Market Information Portal [@welcome], it is known that those two categories have been in short supply in the Australian labour market. Because of the small population and culture influence [@burgess_2018], automation cannot completely replace manual labour which is why the trade and services job category occupied the top spot.
+For a better timely observation across every month, figure \ref{fig:monthly} shows each job category's requirement change in different month which not only shows the shortage job, but also that the category is saturating. It is clear that there are some job categories that are in high demand in certain months of a year, for example, accounting has a high demand in June every year before the end of financial year. Additionally, there are other job categories that have seasonal requirements and result in a high demand during Christmas. 
+
 ```{r jobctegory}
 # Select job category
 jobcategory <- data_cleaned  %>% dplyr::select(post_date,
@@ -281,8 +283,6 @@ arrange(number) #arrange the number of category from small to large
 kable(canum, caption = " The number of jobs per category  ") %>%	
 kable_styling(bootstrap_options = c("striped", "hover"))
 ```
-
-For a better timely observation across every month, figure \ref{fig:monthly} shows each job category's requirement change in different month which not only shows the shortage job, but also that the category is saturating. It is clear that there are some job categories that are in high demand in certain months of a year, for example, accounting has a high demand in June every year before the end of financial year. Additionally, there are other job categories that have seasonal requirements and result in a high demand during Christmas. 
 
 ```{r monthly, fig.cap = "Monthly job category distribution"}
   distribution <- jobcategory  %>%
