@@ -36,6 +36,7 @@ Data analysis and report are produced using R in R studio. The packages used are
 14. `MonashEBSTemplates`
 15. `tidyr`
 16. `glue`
+17. `tinytex`
 
 ## :closed_lock_with_key: License
 The license of this repository is MIT License
