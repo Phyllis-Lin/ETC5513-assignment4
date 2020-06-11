@@ -2,13 +2,13 @@
 
 ## :clipboard: About the repository
 
-This repository provides an exploratory data analysis on job postings across Australia in 2018.  We analysed the change in job demand in this year by:
+This repository provides an exploratory data analysis on job postings across Australia in 2018.  We analysed the changes in job demand in 2018 by:
 
 1. job category
 2. states
 3. job type
 
-We also performed a correlation test between the number of job postings in some big cities with more job postings and the living cost in there.
+We also performed a correlation test between the number of job postings in some big cities with more job postings and the living cost there.
 
 ##  :bar_chart: Data Source
 
@@ -20,7 +20,7 @@ The living cost dataset was scraped from the table of Cost Living Index by City 
 
 Data analysis and report are produced using R in R studio. The packages used are:
 
-1. `tydiverse`
+1. `tidyverse`
 2. `ggplot2`
 3. `lubridate`
 4. `knitr`
@@ -31,15 +31,15 @@ Data analysis and report are produced using R in R studio. The packages used are
 9. `readr`
 10. `forcats`
 11. `kableExtra`
-12. `Rmarkdown`
-13. `bookdown`
+12. `tidyr`
+13. `glue`
 14. `MonashEBSTemplates`
-15. `tidyr`
-16. `glue`
+15. `Rmarkdown`
+16. `bookdown`
 17. `tinytex`
 
 ## :closed_lock_with_key: License
-The license of this repository is MIT License
+The license of this repository is MIT License.
 
 ## :books: Output
-The final output of this repository is a pdf file using laTex format.
+The final output of this repository is a pdf file using LaTeX format.
