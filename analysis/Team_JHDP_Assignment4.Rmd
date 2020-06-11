@@ -75,9 +75,9 @@ Our motivation to choose this as our research topic is prompted by being interna
 # Dataset and Methodology
 
 ## Source of Data
-To portray the change of job demand in Australia, we used an Australia job listing data downloaded from [Kaggle](https://www.kaggle.com/PromptCloudHQ/australian-job-listings-data-from-seek-job-board) provided by [PromptCloud](https://www.promptcloud.com), a web-scraping company. Originally, this data was scraped from [Seek](https://www.seek.com.au) job board. This dataset has a [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) license, where people are free to share and adapt the data.
+To portray the change of job demand in Australia, we used an Australia job listing data downloaded from [Kaggle](https://www.kaggle.com/PromptCloudHQ/australian-job-listings-data-from-seek-job-board) provided by [PromptCloud](https://www.promptcloud.com), a web-scraping company [@Kaggle]. Originally, this data was scraped from [Seek](https://www.seek.com.au) job board. This dataset has a [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) license, where people are free to share and adapt the data.
 
-The other data source that was also utilised in this report is a cost of living dataset from [Numbeo](https://www.numbeo.com/cost-of-living/rankings.jsp?title=2018). It is a crowd-source global database with quality of life information. From the [website’s term of use](https://www.numbeo.com/common/terms_of_use.jsp), it is mentioned that use, reuse, and distribution of Numbeo’s content are allowed. Hence, the data can be used legally in this report. Furthermore, the table of Cost of Living Index by City 2018 was scraped using the rvest and polite packages.
+The other data source that was also utilised in this report is a cost of living dataset from [Numbeo](https://www.numbeo.com/cost-of-living/rankings.jsp?title=2018) [@numbeo]. It is a crowd-source global database with quality of life information. From the [website’s term of use](https://www.numbeo.com/common/terms_of_use.jsp), it is mentioned that use, reuse, and distribution of Numbeo’s content are allowed. Hence, the data can be used legally in this report. Furthermore, the table of Cost of Living Index by City 2018 was scraped using the `rvest` and `polite` packages.
 
 ## Limitations of Data
 
