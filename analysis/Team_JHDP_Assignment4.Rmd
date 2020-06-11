@@ -1,5 +1,5 @@
 ---
-title: "Distributional Job Listings Across Australia in 2018"
+title: "Distribution of Job Postings Across Australia in 2018"
 author:
 - familyname: Troy
   othernames: Helen
@@ -26,24 +26,24 @@ output:
     keep_tex: yes
     number_sections: yes
     citation_package: biblatex
-    toc: false
+    toc: true
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, 
-                      cache=TRUE, 
+                      cache = TRUE, 
                       message = FALSE, 
-                      warning=FALSE)
+                      warning = FALSE)
 ```
 
 ```{r library}
 library(ggplot2)
 library(tidyverse)
-library(haven)
+#library(haven)
 library(lubridate)
-library(broom)
+#library(broom)
 library(tidyr)
-library(base)
+#library(base)
 library(glue)
 library(naniar) # For missing values
 library(polite)
@@ -52,36 +52,36 @@ library(xml2)
 library(readr)
 library(forcats)
 library(kableExtra)
-
+#library(bookdown)
 ```
 
 
 # Introduction 
 
-Job types, job locations, rising demand for certain job categories, these are just some of the aspects of job hunting that many working people around the world are intrigued by. In this report, you will find an in depth analysis into the distribution of job listings across Australia. The report will analyze 3 main sections of job distribution within Australia, broken down by:
+Job types, job locations, rising demand for certain job categories, these are just some of the aspects of job hunting that many working people around the world are intrigued by. In this report, you will find an in depth analysis into the distribution of job postings across Australia. The report will analyze 3 main sections of job distribution within Australia, broken down by:
 
 1) The change in demand by job category
 2) The change in demand for jobs by city
 3) The change in demand by job type
 
-Our motivation to choose this as our research topic is prompted by experiencing first hand the cataclysmic effects of the coronavirus and the impact it has had on the job market globally. It has been an unfortunate scenario to witness unemployment rates skyrocket in major cities around the world. Thus, we want to visualize the changes in demand to jobs of all types and categories in Australia, particularly in the major cities.
+Our motivation to choose this as our research topic is prompted by being international students ourselves. As the unemployment rate in 2018 was at 5%, which was the lowest level since May 2011 @unemployment, this further intrigued our interest into understanding the job market in Australia. But we particularly wanted to know what the different jobs types and categories are in Australia, with an emphasis on how the job postings on the job employment website, SEEK, changed during 2018, particularly in the major cities. 
 
-# Data set and Methodology
+# Dataset and Methodology
 
 ## Source of Data
-To portray the change of job demand in Australia, we used an Australia job listing data that downloaded from [Kaggle](https://www.kaggle.com/PromptCloudHQ/australian-job-listings-data-from-seek-job-board) provided by [PromptCloud](https://www.promptcloud.com), a web-scraping company. Originally, this data was scraped from [Seek](https://www.seek.com.au) job board. This data set has a [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) license, where people are free to share and adapt the data.
+To portray the change of job demand in Australia, we used an Australia job listing data downloaded from [Kaggle](https://www.kaggle.com/PromptCloudHQ/australian-job-listings-data-from-seek-job-board) provided by [PromptCloud](https://www.promptcloud.com), a web-scraping company. Originally, this data was scraped from [Seek](https://www.seek.com.au) job board. This dataset has a [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) license, where people are free to share and adapt the data.
 
-The other data source that also being utilised in this report is a cost of living dataset from [Numbeo](https://www.numbeo.com/cost-of-living/rankings.jsp?title=2018). It is a crowd-source global database of quality of life information. From the [website’s term of use](https://www.numbeo.com/common/terms_of_use.jsp), it is mentioned that use, reuse, and distribution of Numbeo’s content are allowed. Hence, the data could be used legally in this report. Further, the table of Cost of Living Index by City 2018 was scraped using  rvest and polite package.
+The other data source that was also utilised in this report is a cost of living dataset from [Numbeo](https://www.numbeo.com/cost-of-living/rankings.jsp?title=2018). It is a crowd-source global database with quality of life information. From the [website’s term of use](https://www.numbeo.com/common/terms_of_use.jsp), it is mentioned that use, reuse, and distribution of Numbeo’s content are allowed. Hence, the data can be used legally in this report. Furthermore, the table of Cost of Living Index by City 2018 was scraped using the rvest and polite packages.
 
 ## Limitations of Data
 
-- Data collection method: Even though the origin of data set was provided (obtained from Kaggle, collected by PromptCloud and scraped from Seek), it is hard to verify the credibility of the data set, whether the data was obtained in full and in completeness (with no observations being collected incorrectly). Instead the data was use as it at the time of obtaining from Kaggle. 
-- Sample size: The collection period ran from 20 April 2018 to 26 October 2018 which accounted for 6 months of 2018. A sample set contained observations for less than one year period may hinder the ability to reflect seasonal cycle or pattern of the studied objects, which in turns may limit the explanatory power of the data set.  
-- Scope of discussion: The data set was tidied, visualised and interpreted under personal opinions of a group of individuals from which view, to some, may be bias and incompleteness based on the personal experience and knowledge of the authors.  
+- **Data collection method:** Even though the origin of data set was provided (obtained from Kaggle, collected by PromptCloud and scraped from Seek), it is hard to verify the credibility of the data set, whether the data was obtained in full and in completeness (with no observations being collected incorrectly). Instead the data was used as at the time of obtaining it from Kaggle. 
+- **Sample size:** The collection period ran from 20 April 2018 to 26 October 2018 which accounted for 6 months of 2018. A sample set contained observations for less than one year period may hinder the ability to reflect seasonal cycle or pattern of the studied objects, which in turn may limit the explanatory power of the data set.  
+- **Scope of discussion:** The data set was tidied, visualised and interpreted from the perspective of the individuals within this group. Thus, the opinions may be viewed, to some, as bias and incompleteness based on the personal experience and knowledge of the authors.  
 
 ## Methodology
 
-### Cleaning the dataset and inspect the missing values
+### Cleaning the dataset and inspecting the missing values
 
 ```{r load-data, cache = TRUE}
 raw_data <- read.csv(here::here("data", "seek_australia_sample.csv"))
@@ -90,13 +90,13 @@ head(raw_data, n = 10)
 
 There are things to note before we clean:
 
-- city: there are observations that have multiple cities nested in one row.  
-- post_date: dates are coupled with time stamps, thus in character format not in date format.  
-- state: nearly 30% of state information is missed. Multiple name of states are nested in one row and are not in uniform format.  
-- geo: contained both geography for Australia and New Zealand.  
-- salary_offered: mostly absent.  
+- **city:** there are observations that have multiple cities nested in one row.  
+- **post_date:** dates are coupled with time stamps, thus in character format not in date format.  
+- **state:** nearly 30% of state information are missing. Multiple name of states are nested in one row and are not in uniform format.  
+- **geo:** contained both geographies of Australia and New Zealand.  
+- **salary_offered:** mostly absent.  
 
-In order for the data to be used, we need to separate the nested column and observations, filter the data to include Australia only and filled out the state information, using the simplemap's list of cities and states in Australia (@simplemaps_2019) to match with the cities in our data set.
+In order for the data to be used, we needed to separate the nested column and observations, filter the data to include Australia only and filled out the state information, using the simplemap's list of cities and states in Australia (@simplemaps_2019) to match with the cities in our data set.
 
 ```{r clean-dat, cache = TRUE, results = 'hide'}
 #choose the needed columns only 
@@ -233,8 +233,7 @@ by_city_cleaned <- by_city_cleaned %>%
 head(by_city_cleaned)
 ```
 
-
-After that, we inspect the missing values in the dataset.
+After that, we inspected the missing values in the dataset.
 
 ```{r missing, fig.cap= "Missing values visualization after the cleaning"}
 # Using the raw data to show missing values
@@ -244,17 +243,17 @@ miss_data <- by_city_cleaned %>%
 vis_miss(miss_data)
 ```
 
-A quick overview showed that out of all variables chosen, job description is the only variable that had missing values and at a really high ratio - 75.3%, other variables are fully present. However, job description is not of importance for this study, hence we can conclude that this data set requires no further cleaning and is ready for use.
+A quick overview showed that out of all variables chosen, job description is the only variable that had missing values and at a really high ratio, about 75.3%, whereas other variables are fully present. However, job description is not of importance for this study, hence we can conclude that this data set requires no further cleaning and is ready for use.
 
 ## Analyzing the data
 
-An exploratory data analysis is performed to observe the change in job demand across Australia in 2018. We used a variety of plots using the functions in `ggplot2`. We also incorporated tables and did a correlation analysis using Pearson coefficient correlation. 
+An exploratory data analysis is performed to observe the change in job demand across Australia in 2018. We used a variety of plots using the functions in `ggplot2`. We also incorporated tables and did a correlation analysis using the Pearson coefficient correlation. 
 
-# Analysis and Conclusions
+# Analysis and Conclusion
 
 ## Analyze the change in demand by job category
 
-There are 30 jobs category in this dataset and table \ref{tab:category} list the number of jobs per category from April to November in 2018. The category of trades and services was the most popular jobs category in 2018 in Australia and information and communication technology was the second which the job posting number almost the same as the first place. From Labour Market Information Portal [@welcome] known that those two categories have been in short supply in Australian labour market. Because of the small population and culture influence(@burgess_2018) said automation cannot completely replace manual, so far trade and services fully occupied the top spots.
+There are 30 job categories in this dataset and table \ref{tab:category} lists the number of jobs per category from April 2018 to November 2018. The job category of trades and services was the most popular job category in 2018 in Australia, followed by information and communications technology which saw the number of job postings as almost the same as the most popular job category. From the Labour Market Information Portal [@welcome], it is known that those two categories have been in short supply in the Australian labour market. Because of the small population and culture influence(@burgess_2018), automation cannot completely replace manual labour which is why the trade and services job category occupied the top spot.
 
 ```{r jobctegory}
 # Select job category
@@ -308,11 +307,13 @@ monthly
 ```
 
 
-For a better timely observation through every month, figure \ref{fig:monthly}  shows each jobs category requirement change in difference month which not only show the shortage job, but also show some category is becoming saturated. It is more clearly show whether there is some job category in high demand every month in a year, whether there is a job have seasonal requirement, for example, accounting would have a high demand in June every year before the end of financial year, some categories have high demand in Christmas. Meanwhile, figure \ref{fig:number} a graph list top five jobs category in each month. There are 7 categories became the most frequently appeared in the list, for example accounting, administration and office support, healthcare and medical, hospitality and tourism, information and communication technology, Manufacturing, Transport and Logistics, Trade and Services. In October, there were more vacancy and labour requirement than other month. Forbes (@Forbes_2019) shown a statistics report that most industries would figure out what they need in September because holiday was coming and finish job before year-end. Thus, October became the busiest month for recruiting that the number of job posting in additional increase. When it comes to November, the number of jobs posting number in whole labour market got a sharp drop that a new round of hiring has end in October and all goes quiet before Christmas and New Year. 
+For a better timely observation across every month, figure \ref{fig:monthly} shows each job category's requirement change in difference month which not only shows the shortage job, but also also that the category is saturating. It is clear that there are some job categories that are in high demand in certain months of a year, for example, accounting has a high demand in June every year before the end of financial year. Additionally, there are other job categories that have seasonal requirements and result in a high demand during Christmas. 
+
+Meanwhile, figure \ref{fig:number} is a graph showing the top five job categories in each month. There are 7 categories that appears most frequently in the list such as accounting, administration and office support, healthcare and medical, hospitality and tourism, information and communication technology, manufacturing, transport and Logistics and trade and services. In October, there were more vacancies and labour requirements than any other month. Forbes (@Forbes_2019) showed a statistics report indicating that most industries would figure out their labour requirements by September because the holiday season was coming up and finish job before year-end. Thus, October became the busiest month for recruiting as the number of job postings increased. By the time November came around, the number of job postings in the whole labour market resulted in a sharp drop as the new round of hiring ended in October and hiring needs diminish before Christmas and New Year. 
 
 ## Analyze the change in job demand by states
 
-### Change in demand    
+### Job demand in states   
 ```{r state-demand, fig.cap= "Daily job count by states", fig.align = "center"}
 # Convert Date column from character to Date format for geom_line
 by_city_cleaned <- by_city_cleaned %>%
@@ -333,9 +334,9 @@ by_city_cleaned %>%
        y = "Number of jobs")
 ```
 
-Looking at figure \ref{fig:state-demand}, we could see that NSW, Victoria and Queensland lead the national job pool with highest counts observed among all the states. The patterns of job post appeared to look similar across the states with the highest peak in April, followed by two other minor peaks on July. 
+Looking at figure \ref{fig:state-demand}, we can see that NSW, Victoria and Queensland lead the national job pool with the highest counts observed among all the states. The pattern of job posts appeared to look similar across the states with the highest peak in April, followed by two other minor peaks in July. 
 
-To have a better look at the states with lower job counts, which are Australia Capital Territory, Northern Territory, South Australia and Tasmania, we isolated them from the high - count states and look at the change separately.
+To have a better look at the states with lower job counts, which are Australia Capital Territory, Northern Territory, South Australia and Tasmania, we isolated them from the high-count states and looked at the change separately.
 
 ```{r low-demand-state, fig.cap= "Daily job counts in ACT, NT, SA and TAS"}
 by_city_cleaned %>%
@@ -357,16 +358,16 @@ by_city_cleaned %>%
        y = "Number of jobs")
 ```
 
-Figure \ref{fig:low-demand-state} showed that the other four states had roughly the same pattern of job post changed. 
+Figure \ref{fig:low-demand-state} shows that the other four states had roughly the same pattern of job posts changed. 
 
-Normally, the job hunting season usually peaks around the beginning of the year, mostly in January as most companies having robust budgets for hiring and just got out of a holiday season in December. The same situation applies for job seekers as well as people start to come back from the holiday, usually excited with new year resolution; also the annual bonus has been paid at the end of last year, making people more ready to change job starting from January @emswiler_2016. This data set, did not include data from January to March so we cannot verify the situation. However it would be safe to assume that this new year effect lasts further into April. Another peak is around July, which marks the start of new financial year for most companies, giving them higher budget for new hiring @emswiler_2016.
+Normally, the job hunting season usually peaks around the beginning of the year, mostly in January as most companies have robust budgets for hiring and just came out of a holiday season in December. The same situation applies for job seekers as well as people start to come back from the holiday, usually excited with a new year's resolution. Additionally, an annual bonus has been paid at the end of last year, making people more ready to change jobs starting from January @emswiler_2016. This data set did not include data from January to March so we cannot verify the situation. However it would be safe to assume that this new year effect lasts further into April. Another peak is around July, which marks the start of new financial year for most companies, giving them higher budget for new hiring @emswiler_2016.
 
-Despite the similarity in seasonal pattern, the difference in job count was prominent across the states. Big states like NSW, Victoria and Queensland held the majority of opportunities, with the highest count could even got more than 7 times higher than the highest count in the low - demand states (NSW versus South Australia). Even though it was common sense that big states would have more opportunity, the amount gap looked even more significant when presented visually.
+Despite the similarity in seasonal pattern, the difference in job count was prominent across the states. Big states like NSW, Victoria and Queensland held the majority of opportunities, with the highest count reported at more than 7 times higher than the highest count in the low-demand states (NSW versus South Australia). Even though it is expected that big states would have more opportunities, the amount gap looked even more significant when presented visually.
 
 
-### Job demans and living cost
+### Job demand and living cost
 
-According to @davidlasswell, when searching for a job, cost of living should be taken into account. It also relates to the question whether the salary of the job would be enough to cover the living cost in a particular city. Therefore, in this subsection, the living cost in some cities in Australia with relatively had more job listings would be observed.
+According to @davidlasswell, when searching for a job, cost of living should be taken into account. It also relates to the question whether the salary of the job would be enough to cover the living cost in a particular city. Therefore, in this subsection, the living cost in some cities in Australia with relatively more job postings will be observed.
 
 ```{r livingcost, message = FALSE, include = FALSE}
 # Scraping living cost data
@@ -442,8 +443,7 @@ ggplot(cost_of_living_state) +
 
 
 Figure \ref{fig:livingcostplot} shows that Sydney was found to be the city with the highest living cost, about 80. Whilst generally, the living cost index in most cities in Australia ranged betwen 60 to 68. The figure also conveys that Gold Coast was the city with the lowest living cost in Australia. 
-
-It is also interesting to observe whether there is a correlation between the living cost in those cities and the number of job listings in there. Hence, the number of job listings in those cities would be examined first.
+It is also interesting to observe whether there is a correlation between the living cost in those cities and the number of job postings there. Hence, the number of job postings in those cities will be examined first.
 
 ```{r jobcity}
 
@@ -478,17 +478,17 @@ job_city_table <- data_cleaned %>%
     str_detect(city, "Cairns") ~ "Cairns"))
 
 kable(job_city_table,
-      caption = "The number of job listings in some cities in Australia in 2018",
+      caption = "The number of job postings in some cities in Australia in 2018",
       "latex",
-      col.names = c("City", "Number of Job Listings"),
+      col.names = c("City", "Number of Job Postings"),
       booktabs = TRUE) #%>%
   #kable_styling(latex_options = "striped")
 ```
 
 
-Table \ref{tab:jobcity} conveys that Sydney, was being the cities with most job listings. These cities had more than 1000 jobs available in April to December 2018. Meanwhile, Hobart was found to be the city with the least job listings among others. The large number of job listings in Sydney was possibly due to the fact that Sydney was placed to be the city with highest productivity in Australia [@pwcreport].
+Table \ref{tab:jobcity} conveys that Sydney is the city with most job postings. This city had more than 1000 jobs available in April to December 2018. Meanwhile, Hobart was found to be the city with the least job postings among others. The large number of job postings in Sydney is possibly due to the fact that Sydney was placed to be the city with the highest productivity in Australia [@pwcreport].
 
-```{r corrplot, fig.cap= "Cost of living plus rent index vs Number of job listings Scatter Plot"}
+```{r corrplot, fig.cap= "Cost of living plus rent index vs Number of job postings Scatter Plot"}
 
 #join the table for correlation calculation
 job_cost_corr <- cost_of_living_state %>%
@@ -500,7 +500,7 @@ ggplot(job_cost_corr) +
              y = n),
              color = "#138D75") +
   xlab("Cost of living plus rent index") +
-  ylab("Number of job listings") +
+  ylab("Number of job postings") +
   theme_bw()
 
 #calculate correlation
@@ -514,7 +514,7 @@ corr_test <- cor.test(job_cost_corr$living_cost_incld_rent,
 
 
 
-Figure \ref{fig:corrplot} suggests that there is a possible correlation between cost of living and the number of job listings in Australia. However, the pattern can not be really seen since the number of observations is too small. Therefore, the extension of analysis was performed by using Pearson correlation coefficient. The finding is that the there was a significantly positive (`r corr`) correlation between these two variables. This is inline with what @DePietro stated that the increasing living cost is often associated with employment growth and income growth. Further, larger cities tend to be perceived as the expensive places to live [@Weinstein].
+Figure \ref{fig:corrplot} suggests that there is a possible correlation between cost of living and the number of job postings in Australia. However, the pattern can not be really seen since the number of observations is too small. Therefore, the extension of analysis was performed by using the Pearson correlation coefficient. The finding is that there was a significantly positive (`r corr`) correlation between these two variables. This is inline with what @DePietro stated that the increasing living cost is often associated with employment growth and income growth. Furthermore, larger cities tend to be perceived as expensive places to live [@Weinstein].
 
 ## Analyze the change in demand by job type 
 
@@ -536,7 +536,7 @@ data_cleaned %>% group_by(job_type) %>% count() %>%
       labs(x = "Number of jobs posted", y = "Job Type")
 ```
 
-The different types of jobs being posted on seek are part time, full time, contract/temporary and casual/vacation. From Table \@ref(tab:job-type-counts), we can see that over 13500 jobs out of the roughly 20000 jobs posted are full-time jobs. It is easier to visualize just how common these types of jobs are in Figure \@ref(fig:job-types), and we can see how dominant the full-time jobs are being posted by companies. We can expect such a result as many companies seek to employ fresh graduates from universities for an entry-level role. The number of new college graduates entering the workforce is always high enough for companies to post a lot of full-time jobs, which is why it is the most popular job type. Most of the full-time jobs are being generated in the healthcare and education sectors. Specifically, the National Disability Insurance Scheme (NDIS) and aged care services are seeing an increase in demand for these types of jobs. The NDIS expects an extra 80,000 full-time jobs by 2020 @aigroup.
+The different types of jobs being posted on SEEK are part time, full time, contract/temporary and casual/vacation. From Table \@ref(tab:job-type-counts), we can see that over 13500 jobs out of the roughly 20000 jobs posted are full-time jobs. It is easier to visualize just how common these types of jobs are in Figure \@ref(fig:job-types), and we can see how dominant the full-time jobs are being posted by companies. We can expect such a result as many companies want to employ fresh graduates from universities for an entry-level role. The number of new college graduates entering the workforce is always high enough for companies to post a lot of full-time jobs, which is why it is the most popular job type. Most of the full-time jobs are being generated in the healthcare and education sectors. Specifically, the National Disability Insurance Scheme (NDIS) and aged care services are seeing an increase in demand for these types of jobs. The NDIS expects an extra 80,000 full-time jobs by 2020 @aigroup.
 
 ### Fluctuations in job posting numbers by month
 
@@ -552,19 +552,68 @@ job_type_counts <- job_types %>% mutate(Month = month(post_date),
 
 ```
 
-
 ```{r job-count-fluctuations, fig.align="center", fig.cap="Changes in job number postings by month"}
 ggplot(job_type_counts, aes(x = Month, y = `Number of jobs posted`)) +
   geom_point(aes(color = job_type)) +
   geom_line(aes(color= job_type)) 
 ```
 
-However, the fluctuations of these job types says more about what kinds of jobs companies are willing to offer. For example, in Figure \ref{fig:job-count-fluctuations}, there is a large spike in full time jobs between August and October. The opposite is true when these jobs plummet down from 3100 posted jobs in October to around 700 jobs in November. Both part time and casual jobs stay relatively neutral and do not change as much throughout the months. Casual jobs have stayed the same since the past two decades, these jobs formed 20.6% of the workforce in February 2018 compared to 20.1 % in 1998. The reason for an uptick in the jobs posted for this category in October is because the largest proportion of people who take up casual jobs are aged 20-24, followed by people aged 15-19 @norman. Thus around October, many of these people who are students are available to take to take on casual jobs as the summer break approaches. Interestingly, all the job types follow a similar pattern, reporting an increase in the number of jobs posted in June and October as these are the time periods for winter and summer break respectively.
+However, the fluctuations of these job types say more about what kind of jobs companies are willing to offer. For example, in Figure \ref{fig:job-count-fluctuations}, there is a large spike in full time jobs between August and October. The opposite is true when these jobs plummet down from 3100 posted jobs in October to around 700 jobs in November. Both part time and casual jobs stay relatively neutral and do not change as much throughout the months. Casual jobs have stayed the same since the past two decades, these jobs formed 20.6% of the workforce in February 2018 compared to 20.1 % in 1998. The reason for an uptick in the jobs posted for this category in October is because the largest proportion of people who take up casual jobs are aged 20-24, followed by people aged 15-19 @norman. Thus around October, many of these people who are students are available to take on casual jobs as the summer break approaches. Interestingly, all the job types follow a similar pattern, reporting an increase in the number of jobs posted in June and October as these are the time periods for winter and summer break respectively.
 
-## Conclusions
+# Conclusion
 
 The most common type of job posted on SEEK are full-time jobs. With an increasing number of graduates coming out of university, companies are finding ways to offer full-time roles to these graduates. Demand for full-time jobs is predicted to be highest in the healthcare industry with approximately 80,000 jobs needing to be filled by 2020. However, part-time and casual jobs for many different industries are still popular among individuals aged 15-19 and 20-24 even though the demand for these jobs have not changed much over the last 20 years.
 
-In 2018, there are 30 job categories that appeared in the dataset, with trade and services and information technology ranking as the top places for the labour market requirement. Meanwhile, we found that October was the busiest month for the recruiting and some categories have seasonally demand. Further, the number of job listings in a city has a positive correlation with it’s living cost. As such, states that have high living costs such as New South Wales, Victoria and Queensland hold a majority of the national job pool. 
+In 2018, there are 30 job categories that appeared in the dataset, with trade and services and information technology ranking as the top categories for the labour market requirement. Meanwhile, we found that October was the busiest month for recruiting and some job categories have seasonal demand. Furthermore, the number of job postings in a city has a positive correlation with it’s living cost. Sydney recorded the highest living cost index at 80 points, and had over 1000 jobs posted every month from April 2018 to December 2018. As such, states that have high living costs such as New South Wales, Victoria and Queensland holds a majority of the national job pool. 
 
+# Acknowledgements
 
+@whithead_2019
+
+@davidlasswell
+
+@pwcreport
+
+@aigroup
+
+@unemployment
+
+@welcome
+
+@DePietro
+
+@norman
+
+@burgess_2018
+
+@Weinstein
+
+@simplemaps_2019
+
+@emswiler_2016
+
+@Rggplot2
+
+@Rtidyverse
+
+@Rlubridate
+
+@Rtidyr
+
+@Rglue
+
+@Rnaniar
+
+@Rpolite
+
+@Rvest
+
+@Rxml
+
+@Readr
+
+@Rkable
+
+@Rforcats
+
+# References
