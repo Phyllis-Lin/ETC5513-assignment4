@@ -96,7 +96,7 @@ There are things to note before we clean:
 - geo: contained both geography for Australia and New Zealand.  
 - salary_offered: mostly absent.  
 
-In order for the data to be used, we need to separate the nested column and observations, filter the data to include Australia only and filled out the state information, using the third - party list of cities and states in Australia to match with the cities in our data set.
+In order for the data to be used, we need to separate the nested column and observations, filter the data to include Australia only and filled out the state information, using the simplemap's list of cities and states in Australia (@simplemaps_2019) to match with the cities in our data set.
 
 ```{r clean-dat, cache = TRUE }
 #choose the needed columns only 
@@ -560,5 +560,6 @@ However, the fluctuations of these job types says more about what kinds of jobs 
 
 The most common type of job posted on SEEK are full-time jobs. With an increasing number of graduates coming out of university, companies are finding ways to offer full-time roles to these graduates. Demand for these jobs are mainly focused in the healthcare industry with approximately 80,000 jobs needing to be filled by 2020. However, part-time and casual jobs are still popular among individuals aged 15-19 and 20-24 even though the demand for these jobs haven't change dmuch since the last 20 years.
 
-The number of job listings in a city has a positive correlation with it’s living cost.
+The number of job listings in a city has a positive correlation with it’s living cost. As such, states that have high living costs such as New South Wales, Victoria and Queensland hold a majority of the national job pool. 
+
 
