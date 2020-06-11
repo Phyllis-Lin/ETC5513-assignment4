@@ -199,11 +199,11 @@
 \DeclareDelimFormat[cbx@textcite]{nameyeardelim}{\addspace}
 \makeatother
 
-\author{\sf\Large\textbf{Professor Helen Troy}\\ {\sf\large BSc, PhD\\[0.5cm]} \sf\Large\textbf{Mr Genghis Khan}\\ {\sf\large BA, BComm, BCompSci, BLaw\\[0.5cm]}}
+\author{\sf\Large\textbf{Mr. Justin Thomas}\\ {\sf\large Master of Business Analytics\\[0.5cm]} \sf\Large\textbf{Miss Peimin Lin}\\ {\sf\large Master of Business Analytics\\[0.5cm]} \sf\Large\textbf{Miss Hai Hanh Ngo}\\ {\sf\large Master of Business Analytics\\[0.5cm]} \sf\Large\textbf{Miss Dewi Lestari Amaliah}\\ {\sf\large Master of Business Analytics\\[0.5cm]}}
 
 \date{\sf\Date~\Month~\Year}
 \makeatletter
-\lfoot{\sf Troy, Khan: \@date}
+\lfoot{\sf Thomas, Lin, Ngo, Amaliah: \@date}
 \makeatother
 
 
@@ -285,20 +285,6 @@
 \setstretch{1.5}
 
 %% Any special functions or other packages can be loaded here.
-\usepackage{booktabs}
-\usepackage{longtable}
-\usepackage{array}
-\usepackage{multirow}
-\usepackage{wrapfig}
-\usepackage{float}
-\usepackage{colortbl}
-\usepackage{pdflscape}
-\usepackage{tabu}
-\usepackage{threeparttable}
-\usepackage{threeparttablex}
-\usepackage[normalem]{ulem}
-\usepackage{makecell}
-\usepackage{xcolor}
 
 
 \begin{document}
@@ -308,6 +294,8 @@
 \setcounter{tocdepth}{2}
 \tableofcontents
 }
+\clearpage
+
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
 
@@ -344,7 +332,7 @@ The other data source that was also utilised in this report is a cost of living 
 \item
   \textbf{Data collection method:} Even though the origin of data set was provided (obtained from Kaggle, collected by PromptCloud and scraped from Seek), it is hard to verify the credibility of the data set, whether the data was obtained in full and in completeness (with no observations being collected incorrectly). Instead the data was used as at the time of obtaining it from Kaggle.
 \item
-  \textbf{Sample size:} The collection period ran from 20 April 2018 to 26 October 2018 which accounted for 6 months of 2018. A sample set contained observations for less than one year period may hinder the ability to reflect seasonal cycle or pattern of the studied objects, which in turn may limit the explanatory power of the data set.\\
+  \textbf{Sample size:} The collection period ran from 20 April 2018 to 26 October 2018 which accounted for 6 months of 2018. A sample set contained observations for less than one year period may hinder the ability to reflect seasonal cycle or pattern of the studied objects, which in turn may limit the explanatory power of the data set.
 \item
   \textbf{Scope of discussion:} The data set was tidied, visualised and interpreted from the perspective of the individuals within this group. Thus, the opinions may be viewed, to some, as bias and incompleteness based on the personal experience and knowledge of the authors.
 \end{itemize}
@@ -357,29 +345,28 @@ The other data source that was also utilised in this report is a cost of living 
 
 This is the data set pre - cleaning:
 
-\includegraphics[width=1\linewidth]{/Users/HanseMac/Desktop/Monash/ETC5513/Assignment 4/ETC5513-assignment4/data/before}
+\includegraphics[width=1\linewidth]{C:/R/ETC5513/Assignment 4/JPHD-Assignment4/data/before}
 
 There are things to note before we clean:
 
 \begin{itemize}
 \tightlist
 \item
-  \textbf{city:} there are observations that have multiple cities nested in one row.\\
+  \textbf{city:} there are observations that have multiple cities nested in one row.
 \item
-  \textbf{post\_date:} dates are coupled with time stamps, thus in character format not in date format.\\
+  \textbf{post\_date:} dates are coupled with time stamps, thus in character format not in date format.
 \item
-  \textbf{state:} nearly 30\% of state information are missing. Multiple name of states are nested in one row and are not in uniform format.\\
+  \textbf{state:} nearly 30\% of state information are missing. Multiple name of states are nested in one row and are not in uniform format.
 \item
-  \textbf{geo:} contained both geographies of Australia and New Zealand.\\
+  \textbf{geo:} contained both geographies of Australia and New Zealand.
 \item
   \textbf{salary\_offered:} mostly absent.
 \end{itemize}
 
 In order for the data to be used, we needed to separate the nested column and observations, filter the data to include Australia only and filled out the state information, using the simplemap's list of cities and states in Australia (\textcite{simplemaps_2019}) to match with the cities in our data set.
-
 This is the data set after we have done the cleaning, choosing only the variables needed for the analysis:
 
-\includegraphics[width=1\linewidth]{/Users/HanseMac/Desktop/Monash/ETC5513/Assignment 4/ETC5513-assignment4/data/after}
+\includegraphics[width=1\linewidth]{C:/R/ETC5513/Assignment 4/JPHD-Assignment4/data/after}
 
 After that, we inspected the missing values in the dataset.
 
@@ -389,7 +376,7 @@ After that, we inspected the missing values in the dataset.
 \caption{\label{fig:missing}Missing values visualization after the cleaning}
 \end{figure}
 
-A quick overview showed that out of all variables chosen, job description is the only variable that had missing values and at a really high ratio, about 75.3\%, whereas other variables are fully present. However, job description is not of importance for this study, hence we can conclude that this data set requires no further cleaning and is ready for use.
+Figure \ref{fig:missing} showed that out of all variables chosen, job description is the only variable that had missing values and at a really high ratio, about 75.3\%, whereas other variables are fully present. However, job description is not of importance for this study, hence we can conclude that this data set requires no further cleaning and is ready for use.
 
 \hypertarget{analyzing-the-data}{%
 \subsection{Analyzing the data}\label{analyzing-the-data}}
@@ -402,7 +389,7 @@ An exploratory data analysis is performed to observe the change in job demand ac
 \hypertarget{analyze-the-change-in-demand-by-job-category}{%
 \subsection{Analyze the change in demand by job category}\label{analyze-the-change-in-demand-by-job-category}}
 
-There are 30 job categories in this dataset and table \ref{tab:category} lists the number of jobs per category from April 2018 to November 2018. The job category of trades and services was the most popular job category in 2018 in Australia, followed by information and communications technology which saw the number of job postings as almost the same as the most popular job category. From the Labour Market Information Portal \autocite{welcome}, it is known that those two categories have been in short supply in the Australian labour market. Because of the small population and culture influence(\textcite{burgess_2018}), automation cannot completely replace manual labour which is why the trade and services job category occupied the top spot.
+There are 30 job categories in this dataset and table \ref{tab:category} lists the number of jobs per category from April 2018 to November 2018. The job category of trades and services was the most popular job category in 2018 in Australia, followed by information and communications technology which saw the number of job postings as almost the same as the most popular job category. From the Labour Market Information Portal \autocite{welcome}, it is known that those two categories have been in short supply in the Australian labour market. Because of the small population and culture influence \autocite{burgess_2018}, automation cannot completely replace manual labour which is why the trade and services job category occupied the top spot.
 
 \begin{table}
 
@@ -475,6 +462,8 @@ Trades \& Services & 2056\\
 \end{tabular}
 \end{table}
 
+For a better timely observation across every month, figure \ref{fig:monthly} shows each job category's requirement change in different month which not only shows the shortage job, but also that the category is saturating. It is clear that there are some job categories that are in high demand in certain months of a year, for example, accounting has a high demand in June every year before the end of financial year. Additionally, there are other job categories that have seasonal requirements and result in a high demand during Christmas.
+
 \begin{figure}
 \centering
 \includegraphics{Team_JHDP_Assignment4_files/figure-latex/monthly-1.pdf}
@@ -487,9 +476,7 @@ Trades \& Services & 2056\\
 \caption{\label{fig:number}Top 5 category in each month}
 \end{figure}
 
-For a better timely observation across every month, figure \ref{fig:monthly} shows each job category's requirement change in difference month which not only shows the shortage job, but also also that the category is saturating. It is clear that there are some job categories that are in high demand in certain months of a year, for example, accounting has a high demand in June every year before the end of financial year. Additionally, there are other job categories that have seasonal requirements and result in a high demand during Christmas.
-
-Meanwhile, figure \ref{fig:number} is a graph showing the top five job categories in each month. There are 7 categories that appears most frequently in the list such as accounting, administration and office support, healthcare and medical, hospitality and tourism, information and communication technology, manufacturing, transport and Logistics and trade and services. In October, there were more vacancies and labour requirements than any other month. Forbes (\textcite{Whitehead}) showed a statistics report indicating that most industries would figure out their labour requirements by September because the holiday season was coming up and finish job before year-end. Thus, October became the busiest month for recruiting as the number of job postings increased. By the time November came around, the number of job postings in the whole labour market resulted in a sharp drop as the new round of hiring ended in October and hiring needs diminish before Christmas and New Year.
+Meanwhile, figure \ref{fig:number} is a graph showing the top five job categories in each month. There are 7 categories that appears most frequently in the list such as accounting; administration and office support; healthcare and medical; hospitality and tourism; information and communication technology; manufacturing, transport and logistics; trade and services. In October, there were more vacancies and labour requirements than any other month. Forbes (\textcite{whitehead}) showed a statistics report indicating that most industries would figure out their labour requirements by September because the holiday season was coming up and the HR wants to finish their recruiting needs before the year-end. Thus, October became the busiest month for recruiting as the number of job postings increased. By the time November came around, the number of job postings in the whole labour market resulted in a sharp drop as the new round of hiring ended in October and hiring needs diminish before Christmas and New Year.
 
 \hypertarget{analyze-the-change-in-job-demand-by-states}{%
 \subsection{Analyze the change in job demand by states}\label{analyze-the-change-in-job-demand-by-states}}
@@ -516,9 +503,9 @@ To have a better look at the states with lower job counts, which are Australia C
 \caption{\label{fig:low-demand-state}Daily job counts in ACT, NT, SA and TAS}
 \end{figure}
 
-Figure \ref{fig:low-demand-state} shows that the other four states had roughly the same pattern of job posts changed.
+Figure \ref{fig:low-demand-state} shows that the other four states had roughly the same pattern of job posts.
 
-Normally, the job hunting season usually peaks around the beginning of the year, mostly in January as most companies have robust budgets for hiring and just came out of a holiday season in December. The same situation applies for job seekers as well as people start to come back from the holiday, usually excited with a new year's resolution. Additionally, an annual bonus has been paid at the end of last year, making people more ready to change jobs starting from January \textcite{emswiler_2016}. This data set did not include data from January to March so we cannot verify the situation. However it would be safe to assume that this new year effect lasts further into April. Another peak is around July, which marks the start of new financial year for most companies, giving them higher budget for new hiring \textcite{emswiler_2016}.
+Normally, the job hunting season usually peaks around the beginning of the year, mostly in January as most companies have robust budgets for hiring and just came out of a holiday season in December. The same situation applies for job seekers as well as people who start to come back from the holiday, usually excited with a new year's resolution. Additionally, an annual bonus has been paid at the end of last year, making people more ready to change jobs starting from January \autocite{emswiler_2016}. This data set did not include data from January to March so we cannot verify the situation. However it would be safe to assume that this new year effect lasts further into April. Another peak is around July, which marks the start of new financial year for most companies, giving them higher budget for new hiring \autocite{emswiler_2016}.
 
 Despite the similarity in seasonal pattern, the difference in job count was prominent across the states. Big states like NSW, Victoria and Queensland held the majority of opportunities, with the highest count reported at more than 7 times higher than the highest count in the low-demand states (NSW versus South Australia). Even though it is expected that big states would have more opportunities, the amount gap looked even more significant when presented visually.
 
@@ -561,7 +548,7 @@ Hobart & 70\\
 \end{tabular}
 \end{table}
 
-Table \ref{tab:jobcity} conveys that Sydney is the city with most job postings. This city had more than 1000 jobs available in April to December 2018. Meanwhile, Hobart was found to be the city with the least job postings among others. The large number of job postings in Sydney is possibly due to the fact that Sydney was placed to be the city with the highest productivity in Australia \autocite{pwcreport}.
+Table \ref{tab:jobcity} conveys that Sydney is the city with most job postings. This city had more than 1000 jobs available between April to December 2018. Meanwhile, Hobart was found to be the city with the least job postings among others. The large number of job postings in Sydney is possibly due to the fact that Sydney was placed as the city with the highest productivity in Australia \autocite{pwcreport}.
 
 \begin{figure}
 \centering
@@ -628,58 +615,14 @@ However, the fluctuations of these job types say more about what kind of jobs co
 
 The most common type of job posted on SEEK are full-time jobs. With an increasing number of graduates coming out of university, companies are finding ways to offer full-time roles to these graduates. Demand for full-time jobs is predicted to be highest in the healthcare industry with approximately 80,000 jobs needing to be filled by 2020. However, part-time and casual jobs for many different industries are still popular among individuals aged 15-19 and 20-24 even though the demand for these jobs have not changed much over the last 20 years.
 
-In 2018, there are 30 job categories that appeared in the dataset, with trade and services and information technology ranking as the top categories for the labour market requirement. Meanwhile, we found that October was the busiest month for recruiting and some job categories have seasonal demand. Furthermore, the number of job postings in a city has a positive correlation with it's living cost. Sydney recorded the highest living cost index at 80 points, and had over 1000 jobs posted every month from April 2018 to December 2018. As such, states that have high living costs such as New South Wales, Victoria and Queensland holds a majority of the national job pool.
+In 2018, there are 30 job categories that appeared in the dataset, with trade and services and information technology ranking as the top categories for the labour market requirement. Meanwhile, we found that October was the busiest month for recruiting and some job categories have seasonal demand. Furthermore, the number of job postings in a city has a positive correlation with it's living cost. Sydney recorded the highest living cost index at 80 points, and had over 1000 jobs posted between April 2018 to December 2018. As such, states that have high living costs such as New South Wales, Victoria and Queensland holds a majority of the national job pool.
 
 \hypertarget{acknowledgements}{%
 \section{Acknowledgements}\label{acknowledgements}}
 
-\textcite{whitehead}
+This report was written using R \autocite{Rcite}. The following R packages were used to produce this report: \texttt{tidyverse} \autocite{Rtidyverse}, \texttt{readr} \autocite{Readr}, \texttt{kableExtra} \autocite{Rkable}, \texttt{ggplot2} \autocite{Rggplot2}, \texttt{lubridate} \autocite{Rlubridate}, \texttt{tidyr} \autocite{Rtidyr}, \texttt{glue} \autocite{Rglue}, \texttt{naniar} \autocite{Rnaniar}, \texttt{polite} \autocite{Rpolite}, \texttt{rvest} \autocite{Rvest}, \texttt{xml2} \autocite{Rxml}, \texttt{forcats} \autocite{Rforcats}, \texttt{bookdown} \autocite{Rbookdown}, \texttt{MonashEBSTemplates} \autocite{monashebstemplate}, \texttt{knitr} \autocite{knitr}, \texttt{Rmarkdown} \autocite{rmarkdown}, \texttt{tinytex} \autocite{tinytex}.
 
-\textcite{davidlasswell}
-
-\textcite{pwcreport}
-
-\textcite{aigroup}
-
-\textcite{unemployment}
-
-\textcite{welcome}
-
-\textcite{DePietro}
-
-\textcite{norman}
-
-\textcite{burgess_2018}
-
-\textcite{Weinstein}
-
-\textcite{simplemaps_2019}
-
-\textcite{emswiler_2016}
-
-\textcite{Rggplot2}
-
-\textcite{Rtidyverse}
-
-\textcite{Rlubridate}
-
-\textcite{Rtidyr}
-
-\textcite{Rglue}
-
-\textcite{Rnaniar}
-
-\textcite{Rpolite}
-
-\textcite{Rvest}
-
-\textcite{Rxml}
-
-\textcite{Readr}
-
-\textcite{Rkable}
-
-\textcite{Rforcats}
+\clearpage
 
 \printbibliography[title=References]
 
