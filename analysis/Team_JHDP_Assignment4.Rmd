@@ -36,7 +36,7 @@ knitr::opts_chunk$set(echo = FALSE,
                       warning=FALSE)
 ```
 
-```{r}
+```{r library}
 library(ggplot2)
 library(tidyverse)
 library(haven)
@@ -112,7 +112,7 @@ data_cleaned %>%
   mutate_at(vars(post_date), as.Date, format = "%Y-%m-%d")
 ```
 
-```{r read-states}
+```{r read-states,  results='hide'}
 states <- read.csv(here::here("data","au.csv"))
 ```
 
@@ -254,7 +254,7 @@ A quick overview showed that out of all variables chosen, job description is the
 # Select job category
 jobcategory <- data_cleaned  %>% dplyr::select(post_date,
                                                category) %>%
-  separate(post_date, c("Year","Month","day"))%>%
+  separate(post_date, c("Year","Month","day")) %>%
 # and delete "year" and "day" in variable "post_day"
  select(-"Year", -"day") 
 
@@ -262,17 +262,16 @@ jobcategory <- data_cleaned  %>% dplyr::select(post_date,
 
 ```{r category_num, fig.cap= " The number of jobs per category"}
 
-library(kableExtra)
 canum <- jobcategory %>%
-  arrange(number) #arrange the number of category from small to large
-  count(category,sort = TRUE, name = "number")%>%
+ count(category,sort = TRUE, name = "number") %>%
+arrange(number) #arrange the number of category from small to large
 kable(canum, caption = " The number of jobs per category  ") %>%	
 kable_styling(bootstrap_options = c("striped", "hover"))
 ```
 
 ```{r monthly_dirtribution, fig.cap="Monthly job category distribution"}
-  count(Month,category,sort = TRUE, name = "number")%>%
-distribution <- jobcategory  %>%
+  distribution <- jobcategory  %>%
+count(Month,category,sort = TRUE, name = "number")%>%
   arrange(Month) %>%
    ggplot(aes(x = Month, y = number)) + 
    geom_col(position = "dodge") + 
@@ -288,13 +287,12 @@ distribution
 ```
 
 ```{r Month_number, fig.cap="Top 5 category in each month"}
-
 monthly <- jobcategory  %>% 
   count(category,Month,sort = TRUE, name = "number") %>%
   arrange(Month) %>%
   group_by(Month) %>%
-   ggplot() +
   top_n(5) %>% # select each months' top five job categories 
+   ggplot() +
   geom_point(mapping = aes(x = Month, y = number, color = category)) + # fill category in difference color
   ggtitle("Top 5 category in each month")+
    theme_bw(base_size = 11.5)+
@@ -304,7 +302,7 @@ monthly
 ```
 
 
-There are 30 jobs category in this dataset and figure\ref{fig: category_num}  list the number of jobs per category from April to November in 2018. The category of trades and services was the most popular jobs category in 2018 in Australia and information and communication technology was the second which the job posting number almost the same as the first place. From Labour Market Information Portal known that those two categories have been in short supply in Australian labour market. Because of the small population and culture influence, Burgess (2018) said automation cannot completely replace manual, so far trade and services fully occupied the top spots. For a better timely observation through every month, figure\ref{fig: monthly_dirtribution}  shows each jobs category requirement change in difference month which not only show the shortage job, but also show some category is becoming saturated. It is more clearly show whether there is some job category in high demand every month in a year, whether there is a job have seasonal requirement, for example, accounting would have a high demand in June every year before the end of financial year, some categories have high demand in Christmas. Meanwhile, figure\ref{fig: Month_numbercreates} a graph list top five jobs category in each month. There are 7 categories became the most frequently appeared in the list, for example accounting, administration and office support, healthcare and medical, hospitality and tourism, information and communication technology, Manufacturing, Transport and Logistics, Trade and Services. In October, there were more vacancy and labour requirement than other month. Forbes (2019) shown a statistics report that most industries would figure out what they need in September because holiday was coming and finish job before year-end. Thus, October became the busiest month for recruiting that the number of job posting in additional increase. When it comes to November, the number of jobs posting number in whole labour market got a sharp drop that a new round of hiring has end in October and all goes quiet before Christmas and New Year. 
+There are 30 jobs category in this dataset and figure\ref{fig: category_num}  list the number of jobs per category from April to November in 2018. The category of trades and services was the most popular jobs category in 2018 in Australia and information and communication technology was the second which the job posting number almost the same as the first place. From Labour Market Information Portal known that those two categories have been in short supply in Australian labour market. Because of the small population and culture influence(@Burgess_2018) said automation cannot completely replace manual, so far trade and services fully occupied the top spots. For a better timely observation through every month, figure\ref{fig: monthly_dirtribution}  shows each jobs category requirement change in difference month which not only show the shortage job, but also show some category is becoming saturated. It is more clearly show whether there is some job category in high demand every month in a year, whether there is a job have seasonal requirement, for example, accounting would have a high demand in June every year before the end of financial year, some categories have high demand in Christmas. Meanwhile, figure\ref{fig: Month_numbercreates} a graph list top five jobs category in each month. There are 7 categories became the most frequently appeared in the list, for example accounting, administration and office support, healthcare and medical, hospitality and tourism, information and communication technology, Manufacturing, Transport and Logistics, Trade and Services. In October, there were more vacancy and labour requirement than other month. Forbes (@Forbes_2019) shown a statistics report that most industries would figure out what they need in September because holiday was coming and finish job before year-end. Thus, October became the busiest month for recruiting that the number of job posting in additional increase. When it comes to November, the number of jobs posting number in whole labour market got a sharp drop that a new round of hiring has end in October and all goes quiet before Christmas and New Year. 
 
 ### Analyze the change in demand by states + life quality  
 ####. Change in demand (Hanh)    
@@ -328,7 +326,7 @@ by_city_cleaned %>%
        y = "Number of jobs")
 ```
 
-Looking at figure \@ref(fig:state-demand), we could see that NSW, Victoria and Queensland lead the national job pool with highest counts observed among all the states. The patterns of job post appeared to look similar across the states with the highest peak in April, followed by two other minor peaks on July. 
+Looking at figure \ref{fig:state-demand}, we could see that NSW, Victoria and Queensland lead the national job pool with highest counts observed among all the states. The patterns of job post appeared to look similar across the states with the highest peak in April, followed by two other minor peaks on July. 
 
 To have a better look at the states with lower job counts, which are Australia Capital Territory, Northern Territory, South Australia and Tasmania, we isolated them from the high - count states and look at the change separately.
 
@@ -352,7 +350,7 @@ by_city_cleaned %>%
        y = "Number of jobs")
 ```
 
-Figure \@ref(fig:low-demand-state) showed that the other four states had roughly the same pattern of job post changed. 
+Figure \ref{fig:low-demand-state} showed that the other four states had roughly the same pattern of job post changed. 
 
 Normally, the job hunting season usually peaks around the beginning of the year, mostly in January as most companies having robust budgets for hiring and just got out of a holiday season in December. The same situation applies for job seekers as well as people start to come back from the holiday, usually excited with new year resolution; also the annual bonus has been paid at the end of last year, making people more ready to change job starting from January @emswiler_2016. This data set, did not include data from January to March so we cannot verify the situation. However it would be safe to assume that this new year effect lasts further into April. Another peak is around July, which marks the start of new financial year for most companies, giving them higher budget for new hiring @emswiler_2016.
 
@@ -554,12 +552,12 @@ ggplot(job_type_counts, aes(x = Month, y = `Number of jobs posted`)) +
   geom_line(aes(color= job_type)) 
 ```
 
-However, the fluctuations of these job types says more about what kinds of jobs companies are willing to offer. For example, in Figure \#ref(fig:job-count-fluctuations), there is a large spike in full time jobs between August and October. The opposite is true when these jobs plummet down from 3100 posted jobs in October to around 700 jobs in November. Both part time and casual jobs stay relatively neutral and do not change as much throughout the months. Casual jobs have stayed the same since the past two decades, these jobs formed 20.6% of the workforce in February 2018 compared to 20.1 % in 1998. The reason for an uptick in the jobs posted for this category in October is because the largest proportion of people who take up casual jobs are aged 20-24 @norman. Thus around October, many of these people who are students are available to take to take on casual jobs as the summer break approaches. Interestingly, all the job types follow a similar pattern, reporting an increase in the number of jobs posted in June and October as these are the time periods for winter and summer break respectively.
+However, the fluctuations of these job types says more about what kinds of jobs companies are willing to offer. For example, in Figure \ref{fig:job-count-fluctuations}, there is a large spike in full time jobs between August and October. The opposite is true when these jobs plummet down from 3100 posted jobs in October to around 700 jobs in November. Both part time and casual jobs stay relatively neutral and do not change as much throughout the months. Casual jobs have stayed the same since the past two decades, these jobs formed 20.6% of the workforce in February 2018 compared to 20.1 % in 1998. The reason for an uptick in the jobs posted for this category in October is because the largest proportion of people who take up casual jobs are aged 20-24 @norman. Thus around October, many of these people who are students are available to take to take on casual jobs as the summer break approaches. Interestingly, all the job types follow a similar pattern, reporting an increase in the number of jobs posted in June and October as these are the time periods for winter and summer break respectively.
 
 # Conclusion: (Justin - master branch)
 
 The most common type of job posted on SEEK are full-time jobs. With an increasing number of graduates coming out of university, companies are finding ways to offer full-time roles to these graduates. Demand for these jobs are mainly focused in the healthcare industry with approximately 80,000 jobs needing to be filled by 2020. However, part-time and casual jobs are still popular among individuals aged 15-19 and 20-24 even though the demand for these jobs haven't change dmuch since the last 20 years.
-
+In 2018, there are 30 jobs category appeared in the dataset and trade and services and information technology rank the top places of the labour market requirement. Meanwhile, we found that October was the busiest month for the recruiting and some categories have seasonally demand.
 The number of job listings in a city has a positive correlation with it’s living cost. As such, states that have high living costs such as New South Wales, Victoria and Queensland hold a majority of the national job pool. 
 
 
