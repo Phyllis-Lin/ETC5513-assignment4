@@ -1,5 +1,5 @@
 ---
-title: "Distribution of job listings across Australia"
+title: "Expert advice from experts"
 author:
 - familyname: Troy
   othernames: Helen
@@ -45,6 +45,7 @@ library(broom)
 library(tidyr)
 library(base)
 library(glue)
+library(naniar) # For missing values
 ```
 
 
@@ -58,27 +59,39 @@ Job types, job locations, rising demand for certain job categories, these are ju
 
 Our motivation to choose this as our research topic is prompted by experiencing first hand the cataclysmic effects of the coronavirus and the impact it has had on the job market globally. It has been an unfortunate scenario to witness unemployment rates skyrocket in major cities around the world. Thus, we want to visualize the changes in demand to jobs of all types and categories in Australia, particularly in the major cities.
 
-# Dataset and Methodology
+# Data set and Methodology
+### Source of data. (Dewi)  
+To portray the change of job demand in Australia, we used an Australia job listing data that downloaded from [Kaggle](https://www.kaggle.com/PromptCloudHQ/australian-job-listings-data-from-seek-job-board) provided by [PromptCloud](https://www.promptcloud.com), a web-scraping company. Originally, this data was scraped from [Seek](https://www.seek.com.au) job board. This data set has a [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) license, where people are free to share and adapt the data. It contains 20,030 observations and 13 variables, but only 8 variables that are going to use in the analysis. They are: job title; category of job; company name; city; date when jobs were posted; time when jobs were posted; job description; and job type. 
 
-## Source of Data
+### Limitations (Hanh - master)  
+- Data collection method: Even though the origin of data set was provided (obtained from Kaggle, collected by PromptCloud and scraped from Seek), it is hard to verify the credibility of the data set, whether the data was obtained in full and in completeness (with no observations being collected incorrectly). Instead the data was use as it at the time of obtaining from Kaggle.  
+- Sample size: The collection period ran from 20 April 2018 to 26 October 2018 which accounted for 6 months of 2018. A sample set contained observations for less than one year period may hinder the ability to reflect seasonal cycle or pattern of the studied objects, which in turns may limit the explanatory power of the data set.  
+- Scope of discussion: The data set was tidied, visualised and interpreted under personal opinions of a group of individuals from which view, to some, may be bias and incompleteness based on the personal experience and knowledge of the authors.  
 
-To portray the change of job demand in Australia, we used an Australia job listing data that downloaded from [Kaggle](https://www.kaggle.com/PromptCloudHQ/australian-job-listings-data-from-seek-job-board) provided by [PromptCloud](https://www.promptcloud.com), a web-scraping company. Originally, this data was scraped from [Seek](https://www.seek.com.au) job board. This dataset has a [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) license, where people are free to share and adapt the data. It contains 20,030 observations and 13 variables, but only 8 variables that are going to use in te analysis. They are: job title; category of job; company name; city; date when jobs were posted; time when jobs were posted; job description; and job type. 
-
-
-- Limitations (Hanh - master) 
-- Methodology: How we deal with this dataset. ( Peimin - master)  
+### Methodology: How we deal with this data set. ( Peimin - master)  
 
 # Analysis:
-### Clean the data: 
+### Inspecting the Data set
+#### Clean the data: 
 1. isolate the month + year (Hanh - master branch)  
 ```{r load-data, cache = TRUE}
 raw_data <- read.csv(here::here("data", "seek_australia_sample.csv"))
+head(raw_data, n = 10)
 ```
 
-```{r clean-data}
-# choose the needed columns only
+There are things to note before we clean:  
+- city: there are observations that have multiple cities nested in one row.  
+- post_date: dates are coupled with time stamps, thus in character format not in date format.  
+- state: nearly 30% of state information is missed. Multiple name of states are nested in one row and are not in uniform format.  
+- geo: contained both geography for Australia and New Zealand.  
+- salary_offered: mostly absent.  
+
+In order for the data to be used, we need to separate the nested column and observations, filter the data to include Australia only and filled out the state information, using the third - party list of cities and states in Australia to match with the cities in our data set.
+
+```{r clean-dat, cache = TRUE }
+#choose the needed columns only 
 data_cleaned <- raw_data %>%
-  select(3:9)
+  select(3:9,11)
 
 # separate the post-date column to get the date out
 data_cleaned <- data_cleaned %>%
@@ -93,7 +106,7 @@ data_cleaned %>%
 states <- read.csv(here::here("data","au.csv"))
 ```
 
-```{r state-clean}
+```{r state-clean, cache = TRUE, fig.cap="Missing value visualization after columns and rows separation", echo = FALSE}
 # Clean and update state names
 by_city <- data_cleaned %>%
   filter(geo == "AU") %>%
@@ -110,7 +123,7 @@ by_city <- by_city %>%
 vis_miss(by_city)
 ```
 
-```{r clean-city-name}
+```{r clean-city-name, cache = TRUE}
 # Manually adjust missing state
 by_city_cleaned <- by_city %>%
   mutate(
@@ -201,14 +214,86 @@ by_city_cleaned <- by_city %>%
   filter(!city == "")
 ```
 
-2. Missing values  (Hanh - Hanh-Ngo branch)  
+This is the data set after we have done the cleaning, choosing only the variables needed for the analysis:
+
+```{r}
+# Select only the columns needed
+by_city_cleaned <- by_city_cleaned %>%
+  select(- c(lat, lng, country, iso2, capital, population, population_proper))
+head(by_city_cleaned)
+```
+
+_Reources:_ 
+https://simplemaps.com/data/au-cities
+
+####. Missing values  (Hanh - Hanh-Ngo branch)  
+```{r missing, fig.cap= "Missing values visualization after the cleaning"}
+# Using the raw data to show missing values
+miss_data <- by_city_cleaned %>%
+  # Replace blank values with NA
+  mutate_all(na_if,"")
+vis_miss(miss_data)
+```
+
+A quick overview showed that out of all variables chosen, job description is the only variable that had missing values and at a really high ratio - 75.3%, other variables are fully present. However, job description is not of importance for this study, hence we can conclude that this data set requires no further cleaning and is ready for use.
+
 
 ### Analyze the change in demand by job category) (Peimin-Peimin branch)
 
 
-### Analyze the change in demand by city + life quality  
-1. Change in demand (Hanh)    
-2. How does it reflect life quality? (Dewi)
+### Analyze the change in demand by states + life quality  
+####. Change in demand (Hanh)    
+```{r state-demand, fig.cap= "Daily job count by states", fig.align = "center"}
+# Convert Date column from character to Date format for geom_line
+by_city_cleaned <- by_city_cleaned %>%
+  mutate_at(vars(post_date), as.Date, format = "%Y-%m-%d")
+
+by_city_cleaned %>%
+  group_by(post_date, state) %>%
+  summarise("count" = n()) %>%
+  ungroup() %>%
+  ggplot(aes(x = post_date,
+             y = count)) +
+  geom_line(color = "#00008B") +
+  facet_wrap(~ state, scales = "fixed") +
+  theme(axis.text.x = element_text(angle = 60, vjust = 0.3)) +
+  theme_bw() +
+  labs(title = "Count of jobs posted by days",
+       x = "Date",
+       y = "Number of jobs")
+```
+
+Looking at figure \@ref(fig:state-demand), we could see that NSW, Victoria and Queensland lead the national job pool with highest counts observed among all the states. The patterns of job post appeared to look similar across the states with the highest peak in April, followed by two other minor peaks on July. 
+
+To have a better look at the states with lower job counts, which are Australia Capital Territory, Northern Territory, South Australia and Tasmania, we isolated them from the high - count states and look at the change separately.
+
+```{r low-demand-state, fig.cap= "Daily job counts in ACT, NT, SA and TAS"}
+by_city_cleaned %>%
+  filter(!state %in% c("New South Wales",
+                    "Queensland",
+                    "Victoria",
+                    "Western Australia")) %>%
+  group_by(post_date, state) %>%
+  summarise("count" = n()) %>%
+  ungroup() %>%
+  ggplot(aes(x = post_date,
+             y = count)) +
+  geom_line(color = "#FF0000") +
+  facet_wrap(~ state, scales = "fixed") +
+  theme(axis.text.x = element_text(angle = 60, vjust = 0.3)) +
+  theme_bw() +
+  labs(title = "Count of jobs posted by days",
+       x = "Date",
+       y = "Number of jobs")
+```
+
+Figure \@ref(fig:low-demand-state) showed that the other four states had roughly the same pattern of job post changed. 
+
+Normally, the job hunting season usually peaks around the beginning of the year, mostly in January as most companies having robust budgets for hiring and just got out of a holiday season in December. The same situation applies for job seekers as well as people start to come back from the holiday, usually busted with new year resolution; also the annual bonus has been paid at the end of last year, making people more ready to change job starting from January. This data set did not include data from January to March so we cannot verify the situation. However it would be safe to assume that this new year effect lasts further into April. Another peak is around July, which marks the start of new financial year for most companies, giving them higher budget for new hiring.
+
+Despite the similarity in seasonal pattern, the difference in job count was prominent across the states. Big states like NSW, Victoria and Queensland held the majority of opportunities, with the highest count could even got more than 7 times higher than the highest count in the low - demand states (NSW versus South Australia). Even though it was common sense that big states would have more opportunity, the amount gap looked even more significant when presented visually.
+
+####. How does it reflect life quality? (Dewi)
 
 ### Analyze the change in demand by job type (Justin’s branch)
 
