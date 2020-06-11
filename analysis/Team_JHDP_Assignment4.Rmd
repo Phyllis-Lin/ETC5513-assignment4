@@ -99,7 +99,7 @@ data_cleaned %>%
 
 ### Analyze the change in demand by job type
 
-In this section, our goal is to visualize the different types of jobs such as full-time, part-time, contract and casual jobs. The changes in demand to these job types will vastly differ across the months, but it will be interesting to see which job type increased in demand.
+In this section, our goal is to visualize the different types of jobs such as full-time, part-time, contract and casual jobs. The changes in demand to these job types will vastly differ across the months, but it will be interesting to see which job type increased in demand in 2018.
 
 #### Number of jobs posted per job type
 
