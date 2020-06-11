@@ -46,6 +46,13 @@ library(tidyr)
 library(base)
 library(glue)
 library(naniar) # For missing values
+library(polite)
+library(rvest)
+library(xml2)
+library(readr)
+library(forcats)
+library(kableExtra)
+
 ```
 
 
@@ -60,8 +67,11 @@ Job types, job locations, rising demand for certain job categories, these are ju
 Our motivation to choose this as our research topic is prompted by experiencing first hand the cataclysmic effects of the coronavirus and the impact it has had on the job market globally. It has been an unfortunate scenario to witness unemployment rates skyrocket in major cities around the world. Thus, we want to visualize the changes in demand to jobs of all types and categories in Australia, particularly in the major cities.
 
 # Data set and Methodology
-### Source of data. (Dewi)  
+
+## Source of data. (Dewi)  
 To portray the change of job demand in Australia, we used an Australia job listing data that downloaded from [Kaggle](https://www.kaggle.com/PromptCloudHQ/australian-job-listings-data-from-seek-job-board) provided by [PromptCloud](https://www.promptcloud.com), a web-scraping company. Originally, this data was scraped from [Seek](https://www.seek.com.au) job board. This data set has a [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) license, where people are free to share and adapt the data. It contains 20,030 observations and 13 variables, but only 8 variables that are going to use in the analysis. They are: job title; category of job; company name; city; date when jobs were posted; time when jobs were posted; job description; and job type. 
+
+The other data source that also being utilised in this report is a cost of living dataset from [Numbeo](https://www.numbeo.com/cost-of-living/rankings.jsp?title=2018). It is a crowd-source global database of quality of life information. From the [website’s term of use](https://www.numbeo.com/common/terms_of_use.jsp), it is mentioned that use, reuse, and distribution of Numbeo’s content are allowed. Hence, the data could be used legally in this report. Further, the table of Cost of Living Index by City 2018 was scraped using  rvest and polite package.
 
 ### Limitations (Hanh - master)  
 - Data collection method: Even though the origin of data set was provided (obtained from Kaggle, collected by PromptCloud and scraped from Seek), it is hard to verify the credibility of the data set, whether the data was obtained in full and in completeness (with no observations being collected incorrectly). Instead the data was use as it at the time of obtaining from Kaggle.  
@@ -346,24 +356,13 @@ Normally, the job hunting season usually peaks around the beginning of the year,
 
 Despite the similarity in seasonal pattern, the difference in job count was prominent across the states. Big states like NSW, Victoria and Queensland held the majority of opportunities, with the highest count could even got more than 7 times higher than the highest count in the low - demand states (NSW versus South Australia). Even though it was common sense that big states would have more opportunity, the amount gap looked even more significant when presented visually.
 
-####. How does it reflect life quality? (Dewi)
-
-### Analyze the change in demand by job type (Justin’s branch)
-
-# Conclusion: (Justin - master branch)
-
-
-
-
 
 ### Job availibility and living cost
 According to @davidlasswell, when searching for a job, cost of living should be taken into account. It also relates to the question whether the salary of the job would be enough to cover the living cost in a particular city. Therefore, in this subsection, the living cost in some cities in Australia with relatively had more job listings would be observed.
+
 ```{r livingcost, message = FALSE, include = FALSE}
 # Scraping living cost data
-library(polite)
-library(rvest)
-library(xml2)
-library(readr)
+
 # ensure that the website is scrapable 
 bow("https://www.numbeo.com/cost-of-living/rankings.jsp?title=2018")
 cost <- bow("https://www.numbeo.com/cost-of-living/rankings.jsp?title=2018")
@@ -372,12 +371,14 @@ cost_scraped <- scrape(cost)
 city <- cost_scraped %>%
   html_nodes(".cityOrCountryInIndicesTable") %>%
   html_text()
+
 # make a function to scrape based on html nodes
 get_data <- function(column){
   cost_scraped %>% 
     html_nodes(paste0("td:nth-child(",column,")")) %>% 
     html_text() %>% 
     parse_number
+}
 
 # scrape the living cost index
 rent <- get_data("4")
@@ -392,10 +393,12 @@ cost_of_living <- tibble(city = city,
                          restaurant = restaurant,
                          local_purchasing_power_index = local_purchase_power,
                          living_cost_incld_rent = cost_living_rent)
+
 # filter only the country in Australia
 cost_of_living_au <- cost_of_living %>%
   filter(str_detect(city,"Australia")) %>%
   separate(city, into = c("city", "country"), sep = ",")
+
 # add state column to the data
 cost_of_living_state <- cost_of_living_au %>% mutate(
   state = case_when(
@@ -411,9 +414,12 @@ cost_of_living_state <- cost_of_living_au %>% mutate(
     str_detect(city, "Darwin") ~ "NT",
     str_detect(city, "Cairns") ~ "QLD")
 )
+
 ```
+
+
 ```{r livingcostplot, fig.cap = "Living cost of 2018 by city"}
-library(forcats)
+
 
 
 ggplot(cost_of_living_state) +
@@ -425,8 +431,6 @@ ggplot(cost_of_living_state) +
   theme_bw()
 
 ```
-
-
 
 
 Figure \ref{fig:livingcostplot} shows that Sydney was found to be the city with the highest living cost, about 80. Whilst generally, the living cost index in most cities in Australia ranged betwen 60 to 68. The figure also conveys that Gold Coast was the city with the lowest living cost in Australia. 
@@ -464,7 +468,7 @@ job_city_table <- data_cleaned %>%
     str_detect(city, "Hobart") ~ "Hobart",
     str_detect(city, "Darwin") ~ "Darwin",
     str_detect(city, "Cairns") ~ "Cairns"))
-library(kableExtra)
+
 kable(job_city_table,
       caption = "The number of job listings in some cities in Australia in 2018",
       "latex",
@@ -472,7 +476,6 @@ kable(job_city_table,
       booktabs = TRUE) %>%
   kable_styling(latex_options = "striped")
 ```
-
 
 
 Table \ref{tab:jobcity} conveys that Sydney, was being the cities with most job listings. These cities had more than 1000 jobs available in April to December 2018. Meanwhile, Hobart was found to be the city with the least job listings among others. The large number of job listings in Sydney was possibly due to the fact that Sydney was placed to be the city with highest productivity in Australia [@pwcreport].
@@ -504,6 +507,17 @@ corr_test <- cor.test(job_cost_corr$living_cost_incld_rent,
 
 
 Figure \ref{fig:corrplot} suggests that there is a possible correlation between cost of living and the number of job listings in Australia. However, the pattern can not be really seen since the number of observations is too small. Therefore, the extension of analysis was performed by using Pearson correlation coefficient. The finding is that the there was a significantly positive (`r corr`) correlation between these two variables. This is inline with what @DePietro stated that the increasing living cost is often associated with employment growth and income growth. Further, larger cities tend to be perceived as the expensive places to live [@Weinstein].
+
+
+### Analyze the change in demand by job type (Justin’s branch)
+
+# Conclusion: (Justin - master branch)
+
+
+
+
+
+
 
 
 
