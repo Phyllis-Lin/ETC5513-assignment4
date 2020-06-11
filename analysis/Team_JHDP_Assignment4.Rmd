@@ -1,30 +1,33 @@
 ---
 title: "Distribution of job listings across Australia"
-author: "Peimin Lin"
+author:
+- familyname: Troy
+  othernames: Helen
+  title: Professor
+  qualifications: BSc, PhD
+  email: helen.troy@gmail.com
+  correspondingauthor: true
+- familyname: Khan
+  othernames: Genghis
+  title: Mr
+  qualifications: BA, BComm, BCompSci, BLaw
+department: Department of\newline Econometrics &\newline Business Statistics
+organization: Acme Corporation
+bibliography: references.bib
 biblio-style: authoryear-comp
 linestretch: 1.5
 output:
-  pdf_document:
-    highlight: tango
+  MonashEBSTemplates::report:
+    fig_caption: yes
+    fig_height: 5
+    fig_width: 8
+    includes:
+      in_header: preamble.tex
+    keep_tex: yes
     number_sections: yes
-    toc: yes
-    toc_depth: 2
-  html_document:
-    df_print: paged
-    toc: yes
-    toc_depth: '2'
-header-includes:
-- \usepackage{titling}
-- \pretitle{\begin{center} \includegraphics[width=5in,height=13in]{figs/front.jpg}\LARGE\\}
-- \posttitle{\end{center}}
-- \usepackage{fontawesome}
-- \usepackage[most]{tcolorbox}
-- \usepackage{xcolor}
-- \usepackage{sectsty}
-- \sectionfont{\color{olive}}
-- \usepackage{verbatim}
+    citation_package: biblatex
+    toc: false
 ---
-
 \clearpage
 
 # Introduction 
@@ -142,8 +145,7 @@ monthly
 ```
 
 
-There are 30 jobs category in this dataset and figure\ref{fig: category_num}  list the number of jobs per category from April to November in 2018. The category of trades and services was the most popular jobs category in 2018 in Australia and information and communication technology was the second which almost the same as the first place. From Labour Market Information Portal known that those two categories have been in short supply in Australian labour market. For a better timely observation, figure\ref{fig: monthly_dirtribution}   shows each jobs category requirement change in difference month which not only show the shortage job, but also show some category is becoming saturated. Meanwhile, figure\ref{fig: Month_numbercreates}a graph list top five jobs category in each month. There are 7 categories became the most frequently appeared in the list, for example accounting, administration and office support, healthcare and medical, hospitality and tourism, information and communication technology, Manufacturing, Transport and Logistics, Trade and Services. In October, there were more vacancy and labour requirement than other month. Forbes (2019) shown a statistics report that most industries would figure out what they need in September because holiday was coming and finish job before year-end. Thus, October became the busiest month for recruiting that the number of job posting in additional increase.
-
+There are 30 jobs category in this dataset and figure\ref{fig: category_num}  list the number of jobs per category from April to November in 2018. The category of trades and services was the most popular jobs category in 2018 in Australia and information and communication technology was the second which the job posting number almost the same as the first place. From Labour Market Information Portal known that those two categories have been in short supply in Australian labour market. Because of the small population and culture influence, Burgess (2018) said automation cannot completely replace manual, so far trade and services fully occupied the top spots. For a better timely observation through every month, figure\ref{fig: monthly_dirtribution}  shows each jobs category requirement change in difference month which not only show the shortage job, but also show some category is becoming saturated. It is more clearly show whether there is some job category in high demand every month in a year, whether there is a job have seasonal requirement, for example, accounting would have a high demand in June every year before the end of financial year, some categories have high demand in Christmas. Meanwhile, figure\ref{fig: Month_numbercreates} a graph list top five jobs category in each month. There are 7 categories became the most frequently appeared in the list, for example accounting, administration and office support, healthcare and medical, hospitality and tourism, information and communication technology, Manufacturing, Transport and Logistics, Trade and Services. In October, there were more vacancy and labour requirement than other month. Forbes (2019) shown a statistics report that most industries would figure out what they need in September because holiday was coming and finish job before year-end. Thus, October became the busiest month for recruiting that the number of job posting in additional increase. When it comes to November, the number of jobs posting number in whole labour market got a sharp drop that a new round of hiring has end in October and all goes quiet before Christmas and New Year. 
 
 ### Analyze the change in demand by city + life quality  
 1. Change in demand (Hanh)    
