@@ -89,7 +89,7 @@ raw_data <- read.csv(here::here("data", "seek_australia_sample.csv"))
 ```
 
 ```{r before-fig, out.width="100%"}
-knitr::include_graphics(here::here("data", "before.png"))
+knitr::include_graphics(here::here("data/before.png"))
 ```
 
 There are things to note before we clean:
@@ -234,7 +234,7 @@ by_city_cleaned <- by_city_cleaned %>%
 ```
 
 ```{r after-fi, out.width="100%"}
-knitr::include_graphics(here::here("data", "after.png"))
+knitr::include_graphics(here::here("data/after.png"))
 ```
 
 After that, we inspected the missing values in the dataset.
