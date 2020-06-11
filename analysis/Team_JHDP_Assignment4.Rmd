@@ -309,7 +309,7 @@ monthly
 
 For a better timely observation across every month, figure \ref{fig:monthly} shows each job category's requirement change in difference month which not only shows the shortage job, but also also that the category is saturating. It is clear that there are some job categories that are in high demand in certain months of a year, for example, accounting has a high demand in June every year before the end of financial year. Additionally, there are other job categories that have seasonal requirements and result in a high demand during Christmas. 
 
-Meanwhile, figure \ref{fig:number} is a graph showing the top five job categories in each month. There are 7 categories that appears most frequently in the list such as accounting, administration and office support, healthcare and medical, hospitality and tourism, information and communication technology, manufacturing, transport and Logistics and trade and services. In October, there were more vacancies and labour requirements than any other month. Forbes (@Whitehead) showed a statistics report indicating that most industries would figure out their labour requirements by September because the holiday season was coming up and finish job before year-end. Thus, October became the busiest month for recruiting as the number of job postings increased. By the time November came around, the number of job postings in the whole labour market resulted in a sharp drop as the new round of hiring ended in October and hiring needs diminish before Christmas and New Year. 
+Meanwhile, figure \ref{fig:number} is a graph showing the top five job categories in each month. There are 7 categories that appears most frequently in the list such as accounting, administration and office support, healthcare and medical, hospitality and tourism, information and communication technology, manufacturing, transport and Logistics and trade and services. In October, there were more vacancies and labour requirements than any other month. Forbes (@whitehead) showed a statistics report indicating that most industries would figure out their labour requirements by September because the holiday season was coming up and finish job before year-end. Thus, October became the busiest month for recruiting as the number of job postings increased. By the time November came around, the number of job postings in the whole labour market resulted in a sharp drop as the new round of hiring ended in October and hiring needs diminish before Christmas and New Year. 
 
 ## Analyze the change in job demand by states
 
@@ -567,53 +567,8 @@ The most common type of job posted on SEEK are full-time jobs. With an increasin
 In 2018, there are 30 job categories that appeared in the dataset, with trade and services and information technology ranking as the top categories for the labour market requirement. Meanwhile, we found that October was the busiest month for recruiting and some job categories have seasonal demand. Furthermore, the number of job postings in a city has a positive correlation with it’s living cost. Sydney recorded the highest living cost index at 80 points, and had over 1000 jobs posted every month from April 2018 to December 2018. As such, states that have high living costs such as New South Wales, Victoria and Queensland holds a majority of the national job pool. 
 
 # Acknowledgements
+The following R packages were used to produce this report: tidyverse [@Rtidyverse], readr [@Readr], kableExtra [@Rkable], ggplot2 [@Rggplot2],lubridate [@Rlubridate],tidyr [@Rtidyr], glue [@Rglue], naniar [@Rnaniar], polite[@Rpolite], vest [@Rvest], xml [@Rxml], forcats [@Rforcats], bookdown[@Rbookdown]
 
-@whitehead
-
-@davidlasswell
-
-@pwcreport
-
-@aigroup
-
-@unemployment
-
-@welcome
-
-@DePietro
-
-@norman
-
-@burgess_2018
-
-@Weinstein
-
-@simplemaps_2019
-
-@emswiler_2016
-
-@Rggplot2
-
-@Rtidyverse
-
-@Rlubridate
-
-@Rtidyr
-
-@Rglue
-
-@Rnaniar
-
-@Rpolite
-
-@Rvest
-
-@Rxml
-
-@Readr
-
-@Rkable
-
-@Rforcats
+\clearpage
 
 # References
