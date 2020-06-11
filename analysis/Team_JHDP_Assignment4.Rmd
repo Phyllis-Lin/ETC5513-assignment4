@@ -82,10 +82,14 @@ The other data source that was also utilised in this report is a cost of living 
 ## Methodology
 
 ### Cleaning the dataset and inspecting the missing values
+This is the data set pre - cleaning:
 
 ```{r load-data, cache = TRUE}
 raw_data <- read.csv(here::here("data", "seek_australia_sample.csv"))
-head(raw_data, n = 10)
+```
+
+```{r before-fig, out.width="100%"}
+knitr::include_graphics(here::here("data", "before.png"))
 ```
 
 There are things to note before we clean:
@@ -128,9 +132,6 @@ by_city <- data_cleaned %>%
 by_city <- by_city %>%
   left_join(states, by = "city") %>%
   rename("state" = admin)
-
-# check the missing
-vis_miss(by_city)
 ```
 
 ```{r clean-city-name, cache = TRUE}
@@ -230,7 +231,10 @@ This is the data set after we have done the cleaning, choosing only the variable
 # Select only the columns needed
 by_city_cleaned <- by_city_cleaned %>%
   select(- c(lat, lng, country, iso2, capital, population, population_proper))
-head(by_city_cleaned)
+```
+
+```{r after-fi, out.width="100%"}
+knitr::include_graphics(here::here("data", "after.png"))
 ```
 
 After that, we inspected the missing values in the dataset.
