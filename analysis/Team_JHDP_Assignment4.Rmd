@@ -355,3 +355,154 @@ Despite the similarity in seasonal pattern, the difference in job count was prom
 
 
 
+
+### Job availibility and living cost
+According to @davidlasswell, when searching for a job, cost of living should be taken into account. It also relates to the question whether the salary of the job would be enough to cover the living cost in a particular city. Therefore, in this subsection, the living cost in some cities in Australia with relatively had more job listings would be observed.
+```{r livingcost, message = FALSE, include = FALSE}
+# Scraping living cost data
+library(polite)
+library(rvest)
+library(xml2)
+library(readr)
+# ensure that the website is scrapable 
+bow("https://www.numbeo.com/cost-of-living/rankings.jsp?title=2018")
+cost <- bow("https://www.numbeo.com/cost-of-living/rankings.jsp?title=2018")
+cost_scraped <- scrape(cost)
+# scrape the city column
+city <- cost_scraped %>%
+  html_nodes(".cityOrCountryInIndicesTable") %>%
+  html_text()
+# make a function to scrape based on html nodes
+get_data <- function(column){
+  cost_scraped %>% 
+    html_nodes(paste0("td:nth-child(",column,")")) %>% 
+    html_text() %>% 
+    parse_number
+
+# scrape the living cost index
+rent <- get_data("4")
+cost_living_rent <- get_data("5")
+grocery <- get_data("6")
+restaurant <- get_data("7")
+local_purchase_power <- get_data("8")
+# create the table of living cost
+cost_of_living <- tibble(city = city,
+                         rent = rent,
+                         grocery = grocery,
+                         restaurant = restaurant,
+                         local_purchasing_power_index = local_purchase_power,
+                         living_cost_incld_rent = cost_living_rent)
+# filter only the country in Australia
+cost_of_living_au <- cost_of_living %>%
+  filter(str_detect(city,"Australia")) %>%
+  separate(city, into = c("city", "country"), sep = ",")
+# add state column to the data
+cost_of_living_state <- cost_of_living_au %>% mutate(
+  state = case_when(
+    str_detect(city, "Sydney") ~ "NSW",
+    str_detect(city, "Newcastle") ~ "NSW",
+    str_detect(city, "Brisbane") ~ "QLD",
+    str_detect(city, "Gold Coast") ~ "QLD",
+    str_detect(city, "Canberra") ~ "ACT",
+    str_detect(city, "Perth") ~ "WA",
+    str_detect(city, "Melbourne") ~ "VIC",
+    str_detect(city, "Adelaide") ~ "SA",
+    str_detect(city, "Hobart") ~ "TAS",
+    str_detect(city, "Darwin") ~ "NT",
+    str_detect(city, "Cairns") ~ "QLD")
+)
+```
+```{r livingcostplot, fig.cap = "Living cost of 2018 by city"}
+library(forcats)
+
+
+ggplot(cost_of_living_state) +
+  geom_point(aes(x = living_cost_incld_rent,
+                 y = reorder(city, living_cost_incld_rent)),
+             color = "#FF0080") +
+  xlab("Cost of living plus rent index") +
+  ylab("City")+
+  theme_bw()
+
+```
+
+
+
+
+Figure \ref{fig:livingcostplot} shows that Sydney was found to be the city with the highest living cost, about 80. Whilst generally, the living cost index in most cities in Australia ranged betwen 60 to 68. The figure also conveys that Gold Coast was the city with the lowest living cost in Australia. 
+
+It is also interesting to observe whether there is a correlation between the living cost in those cities and the number of job listings in there. Hence, the number of job listings in those cities would be examined first.
+
+```{r jobcity}
+
+job_city_table <- data_cleaned %>%
+  group_by(city) %>%
+  count() %>%
+  arrange(desc(n)) %>%
+  filter(city %in% c("Sydney", 
+                     "Melbourne", 
+                     "Brisbane", 
+                     "Perth", 
+                     "Adelaide", 
+                     "Hobart", 
+                     "Darwin", 
+                     "ACT", 
+                     "Gold Coast", 
+                     "Newcastle, Maitland & Hunter", 
+                     "Cairns & Far North")) %>%
+  ungroup() %>%
+  # change the city name
+  mutate(city = case_when(
+    str_detect(city, "Sydney") ~ "Sydney",
+    str_detect(city, "Newcastle") ~ "Newcastle",
+    str_detect(city, "Brisbane") ~ "Brisbane",
+    str_detect(city, "Gold Coast") ~ "Gold Coast",
+    str_detect(city, "ACT") ~ "Canberra",
+    str_detect(city, "Perth") ~ "Perth",
+    str_detect(city, "Melbourne") ~ "Melbourne",
+    str_detect(city, "Adelaide") ~ "Adelaide",
+    str_detect(city, "Hobart") ~ "Hobart",
+    str_detect(city, "Darwin") ~ "Darwin",
+    str_detect(city, "Cairns") ~ "Cairns"))
+library(kableExtra)
+kable(job_city_table,
+      caption = "The number of job listings in some cities in Australia in 2018",
+      "latex",
+      col.names = c("City", "Number of Job Listings"),
+      booktabs = TRUE) %>%
+  kable_styling(latex_options = "striped")
+```
+
+
+
+Table \ref{tab:jobcity} conveys that Sydney, was being the cities with most job listings. These cities had more than 1000 jobs available in April to December 2018. Meanwhile, Hobart was found to be the city with the least job listings among others. The large number of job listings in Sydney was possibly due to the fact that Sydney was placed to be the city with highest productivity in Australia [@pwcreport].
+
+```{r corrplot, fig.cap= "Cost of living plus rent index vs Number of job listings Scatter Plot"}
+
+#join the table for correlation calculation
+job_cost_corr <- cost_of_living_state %>%
+  left_join(job_city_table, by = "city")
+
+#make the scatter plot
+ggplot(job_cost_corr) +
+  geom_point(aes(x =living_cost_incld_rent,
+             y = n),
+             color = "#138D75") +
+  xlab("Cost of living plus rent index") +
+  ylab("Number of job listings") +
+  theme_bw()
+
+#calculate correlation
+corr <- cor(job_cost_corr$living_cost_incld_rent, 
+            job_cost_corr$n)
+
+corr_test <- cor.test(job_cost_corr$living_cost_incld_rent, 
+            job_cost_corr$n)
+  
+```
+
+
+
+Figure \ref{fig:corrplot} suggests that there is a possible correlation between cost of living and the number of job listings in Australia. However, the pattern can not be really seen since the number of observations is too small. Therefore, the extension of analysis was performed by using Pearson correlation coefficient. The finding is that the there was a significantly positive (`r corr`) correlation between these two variables. This is inline with what @DePietro stated that the increasing living cost is often associated with employment growth and income growth. Further, larger cities tend to be perceived as the expensive places to live [@Weinstein].
+
+
